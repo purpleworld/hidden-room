@@ -9,3 +9,16 @@ class Profile(models.Model):
 
     def __str__(self):
         return "%s's profile" % self.user
+
+class Friend(models.Model):
+    RELATIONSHIP_STATUS = [
+        ('PENDING', 'Pending'),
+        ('FRIENDS', 'Friends'),
+        ('BLOCKED', 'Blocked'),
+        ('UNKNOWN', 'Unknown')
+    ]
+
+    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user2_id = models.IntegerField()
+    relationship = models.CharField(max_length=50, choices=RELATIONSHIP_STATUS, default='PENDING')
+    since = models.DateTimeField('Date accepted')
