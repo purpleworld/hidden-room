@@ -9,8 +9,8 @@ from .models import Profile, Friend
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
+    #permission_classes = [permissions.IsAuthenticated]
+    
 
 class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
