@@ -33,3 +33,4 @@ class FriendSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Friend
         fields = ['user_id', 'user2_id', 'relationship', 'since']
+        extra_kwargs = {'since': {'read_only': True}}

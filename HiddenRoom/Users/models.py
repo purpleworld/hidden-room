@@ -18,7 +18,7 @@ class Friend(models.Model):
         ('UNKNOWN', 'Unknown')
     ]
 
-    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    user2_id = models.IntegerField()
+    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user1_id')
+    user2_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user2_id', null=False)
     relationship = models.CharField(max_length=50, choices=RELATIONSHIP_STATUS, default='PENDING')
-    since = models.DateTimeField('Date accepted')
+    since = models.DateTimeField(auto_now_add=True)
