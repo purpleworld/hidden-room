@@ -7,6 +7,9 @@ class Chatroom(models.Model):
     name = models.CharField(max_length=50, null=True)
     creation_date = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.name
+
 class ChatroomUser(models.Model):
     chatroom = models.ForeignKey(Chatroom, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False)
@@ -22,6 +25,9 @@ class PrivateChatroom(models.Model):
     user1 = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user1', null=False)
     user2 = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user2', null=False)
     creation_date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Message(models.Model):

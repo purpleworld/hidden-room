@@ -33,7 +33,7 @@ class MessageSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Message
         fields = ['chatroom', 'message', 'user_id', 'content', 'created_at']
-        extra_kwargs = {'created_at': {'read_only': True}}
+        extra_kwargs = {'created_at': {'read_only': True}, 'content': {'write_only': True}}
 
 class PrivateMessageSerializer(serializers.HyperlinkedModelSerializer):
     chatroom = serializers.HyperlinkedRelatedField(queryset=Chatroom.objects.all(), view_name='chatroom-detail')
@@ -42,4 +42,4 @@ class PrivateMessageSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = PrivateMessage
         fields = ['chatroom', 'message', 'user_id', 'content', 'created_at']
-        extra_kwargs = {'created_at': {'read_only': True}}
+        extra_kwargs = {'created_at': {'read_only': True}, 'content': {'write_only': True}}
