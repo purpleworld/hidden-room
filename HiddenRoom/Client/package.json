@@ -1,26 +1,29 @@
 {
-  "name": "Client",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "dev": "webpack --mode development ./src/index.js --output ./static/Client/main.js",
-    "build": "webpack --mode production ./src/index.js --output ./static/Client/main.js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@babel/core": "^7.9.6",
-    "@babel/preset-env": "^7.9.6",
-    "@babel/preset-react": "^7.9.4",
-    "babel-loader": "^8.1.0",
-    "eslint": "^7.2.0",
-    "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-react-hooks": "^4.0.4",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11"
-  }
+    "name": "Client",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "dev": "webpack --mode development ./src/index.js --output ./static/Client/main.js",
+        "build": "webpack --mode production ./src/index.js --output ./static/Client/main.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@babel/core": "^7.9.6",
+        "@babel/preset-env": "^7.9.6",
+        "@babel/preset-react": "^7.9.4",
+        "babel-loader": "^8.1.0",
+        "eslint": "^7.2.0",
+        "eslint-config-prettier": "^6.11.0",
+        "eslint-plugin-react-hooks": "^4.0.4",
+        "webpack": "^4.43.0",
+        "webpack-cli": "^3.3.11"
+    },
+    "dependencies": {
+        "react": "^16.13.1",
+        "react-dom": "^16.13.1",
+        "react-router-dom": "^5.2.0"
+    }
 }

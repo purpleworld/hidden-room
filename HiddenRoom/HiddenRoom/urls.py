@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import include, path, re_path
 from rest_framework import routers
 from Users.views import UserViewSet, ProfileViewSet, FriendViewSet
 from Chat.views import ChatroomViewSet, ChatroomUserViewSet, PrivateChatroomViewSet, MessageViewSet, PrivateMessageViewSet
@@ -16,7 +16,7 @@ router.register(r'messages', MessageViewSet)
 router.register(r'private-messages', PrivateMessageViewSet)
 
 urlpatterns = [
-     path('', include('Client.urls')),
-    path('', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    path('', include('Client.urls')),
+    re_path(r'^api/', include(router.urls)),
+    re_path(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
