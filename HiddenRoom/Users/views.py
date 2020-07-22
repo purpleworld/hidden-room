@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 from rest_framework import permissions
 from .serializers import ProfileSerializer, UserSerializer, FriendSerializer
 from django.contrib.auth.models import User
@@ -22,3 +22,9 @@ class FriendViewSet(viewsets.ModelViewSet):
     queryset = Friend.objects.all()
     serializer_class = FriendSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+
+class AccountCreate(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.AllowAny]

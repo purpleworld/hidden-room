@@ -22,11 +22,13 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
         return instance
 
+
 class ProfileSerializer(serializers.HyperlinkedModelSerializer):
     user = serializers.HyperlinkedRelatedField(queryset=User.objects.all(), view_name='user-detail')
     class Meta:
         model = Profile
         fields = ['user', 'avatar', 'status']
+        
 
 class FriendSerializer(serializers.HyperlinkedModelSerializer):
     user_id = serializers.HyperlinkedRelatedField(queryset=User.objects.all(), view_name='user-detail')

@@ -17,8 +17,9 @@ router.register(r'messages', MessageViewSet)
 router.register(r'private-messages', PrivateMessageViewSet)
 
 urlpatterns = [
-    path('', include('Client.urls')),
     re_path(r'^api/', include(router.urls)),
     re_path(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    re_path(r'^api/auth/', views.obtain_auth_token)
+    re_path(r'^api/auth/', views.obtain_auth_token),
+    path('account/', include('Users.urls')),
+    path('', include('Client.urls')),
 ]

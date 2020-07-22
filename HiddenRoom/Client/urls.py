@@ -3,5 +3,5 @@ from . import views
 
 
 urlpatterns = [
-    re_path(r'^(?!api|api-auth).*$', views.index)
+    re_path(r'^.*$', views.index)
 ]
