@@ -4,13 +4,24 @@ from .models import Profile, Friend
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
+    confirm_password = serializers.CharField(min_length=8, max_length=100, write_only=True, required=True)
+    
     class Meta:
         model = User
-        fields = ['url', 'username', 'email', 'password']
+        fields = ['url', 'username', 'email', 'password', 'confirm_password']
         extra_kwargs = {'password': {'write_only': True}}
         
     def create(self, validated_data):
-        return User.objects.create_user(**validated_data)
+        return User.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data['email'],
+            password=validated_data['password']
+        )
+
+    def validate(self, data):
+        if(data.get('password') != data.get('confirm_password')):
+            raise serializers.ValidationError({"password_error":"Password don't match"})
+        return data
 
     def update(self, instance, validated_data):
         instance.username = validated_data.get('username', instance.username)
