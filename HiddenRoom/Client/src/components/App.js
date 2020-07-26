@@ -1,33 +1,20 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useEffect} from 'react';
 import {BrowserRouter as Router, Switch, Route, Link, Redirect} from 'react-router-dom';
 import Login from './Login/Login';
-import Header from './Header/Header';
+import Register from './Register/Register';
 
 const App = () => {
     return (
-        <Fragment>
-            <Header />
-            <Router>
-                <div>
-                    <nav>
-                        <ul>
-                            <li>
-                                <Link to="/">Home</Link>
-                            </li>
-                            <li>
-                                <Link to="/login">Login</Link>
-                            </li>
-                        </ul>
-                    </nav>
-
-                    <Switch>
-                        <Route path="/login">
-                            <Login />
-                        </Route>
-                    </Switch>
-                </div>
-            </Router>
-        </Fragment>
+        <Router>
+            <Switch>
+                <Route path="/login">
+                    <Login />
+                </Route>
+                <Route path="/register">
+                    <Register />
+                </Route>
+            </Switch>
+        </Router>
     );
 };
 
