@@ -20,7 +20,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
     def validate(self, data):
         if(data.get('password') != data.get('confirm_password')):
-            raise serializers.ValidationError({"password_error":"Password don't match"})
+            raise serializers.ValidationError({"password":"Passwords don't match"})
         return data
 
     def update(self, instance, validated_data):
