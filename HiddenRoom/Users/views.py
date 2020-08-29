@@ -1,6 +1,8 @@
 from django.shortcuts import render
-from rest_framework import viewsets, generics
-from rest_framework import permissions
+from rest_framework import viewsets, generics, permissions, response
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
+
 from .serializers import ProfileSerializer, UserSerializer, FriendSerializer
 from django.contrib.auth.models import User
 from .models import Profile, Friend
@@ -28,3 +30,17 @@ class AccountCreate(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [permissions.AllowAny]
+
+class GetToken(ObtainAuthToken):
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data, context={'request': request})
+
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        token = Token.objects.get(user=user)
+        
+        return response.Response(
+            headers={
+                'Set-Cookie': f'auth_token={token.key}; HttpOnly; Path=/'
+            }
+        )

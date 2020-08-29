@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import include, path, re_path
 from rest_framework import routers
 from rest_framework.authtoken import views 
-from Users.views import UserViewSet, ProfileViewSet, FriendViewSet
+from Users.views import UserViewSet, ProfileViewSet, FriendViewSet, GetToken
 from Chat.views import ChatroomViewSet, ChatroomUserViewSet, PrivateChatroomViewSet, MessageViewSet, PrivateMessageViewSet
 
 router = routers.DefaultRouter()
@@ -19,7 +19,7 @@ router.register(r'private-messages', PrivateMessageViewSet)
 urlpatterns = [
     re_path(r'^api/', include(router.urls)),
     re_path(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    re_path(r'^api/auth/', views.obtain_auth_token),
+    re_path(r'^api/auth/', GetToken.as_view()),
     path('account/', include('Users.urls')),
     path('', include('Client.urls')),
 ]
