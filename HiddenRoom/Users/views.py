@@ -1,6 +1,6 @@
-from django.shortcuts import render
-from rest_framework import viewsets, generics, permissions, response
-from rest_framework.authtoken.views import ObtainAuthToken
+from django.shortcuts import render, get_object_or_404
+from rest_framework import viewsets, generics, authentication, permissions, response
+from rest_framework.authtoken.views import ObtainAuthToken, APIView
 from rest_framework.authtoken.models import Token
 
 from .serializers import ProfileSerializer, UserSerializer, FriendSerializer
@@ -17,7 +17,16 @@ class UserViewSet(viewsets.ModelViewSet):
 class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
+    authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
+
+    def retrieve(self, request, *args, **kwargs):
+        self.object = get_object_or_404(Profile, user=self.request.user)
+        return response.Response({
+            'username': self.object.user.username,
+            'avatar': self.object.avatar,
+            'status': self.object.status,
+        })
 
 
 class FriendViewSet(viewsets.ModelViewSet):
@@ -30,6 +39,7 @@ class AccountCreate(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [permissions.AllowAny]
+
 
 class GetToken(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
