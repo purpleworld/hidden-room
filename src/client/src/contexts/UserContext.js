@@ -1,9 +1,6 @@
 import React, {createContext} from 'react';
 
-const UserContext = createContext({
-    user: {},
-    isLogged: false,
-});
+const UserContext = createContext([]);
 
 UserContext.displayName = 'UserContext';
 

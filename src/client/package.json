@@ -2,9 +2,9 @@
     "name": "Client",
     "version": "1.0.0",
     "description": "",
-    "main": "index.js",
+    "main": "./src/index.js",
     "scripts": {
-        "dev": "webpack --mode development ./src/index.js --output ./static/Client/main.js",
+        "start": "webpack-dev-server --hot --open --mode development",
         "build": "webpack --mode production ./src/index.js --output ./static/Client/main.js"
     },
     "keywords": [],
@@ -21,14 +21,17 @@
         "eslint": "^7.2.0",
         "eslint-config-prettier": "^6.11.0",
         "eslint-plugin-react-hooks": "^4.0.4",
+        "html-webpack-plugin": "^4.3.0",
         "sass": "^1.26.10",
         "sass-loader": "^9.0.2",
         "style-loader": "^1.2.1",
         "webpack": "^4.43.0",
-        "webpack-cli": "^3.3.11"
+        "webpack-cli": "^3.3.11",
+        "webpack-dev-server": "^3.11.0"
     },
     "dependencies": {
         "bootstrap": "^4.5.0",
+        "js-cookie": "^2.2.1",
         "react": "^16.13.1",
         "react-bootstrap": "^1.0.1",
         "react-dom": "^16.13.1",

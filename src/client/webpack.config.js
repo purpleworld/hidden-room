@@ -1,8 +1,21 @@
 const webpack = require('webpack');
 const path = require('path');
-const dotenv = require('dotenv').config({path: path.join(__dirname, '/../../.env')});
+const dotenv = require('dotenv').config({path: path.join(__dirname, '.env')});
 
 module.exports = {
+    entry: {
+        app: './src/index.js',
+    },
+    output: {
+        path: path.resolve(__dirname, 'dist'),
+        filename: 'bundle.js',
+    },
+    devServer: {
+        contentBase: './',
+        historyApiFallback: true,
+        port: 8081,
+    },
+
     module: {
         rules: [
             {

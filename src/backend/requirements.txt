@@ -1,0 +1,4 @@
+Django==3.0.6
+psycopg2
+python-dotenv
+django-cors-headers

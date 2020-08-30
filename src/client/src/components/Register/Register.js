@@ -1,4 +1,5 @@
-import React, {useReducer, useState} from 'react';
+import React, {useReducer} from 'react';
+import {BrowserRouter as Router, Switch, Route, Link, Redirect} from 'react-router-dom';
 import {Container, Form, Button, Row, Col} from 'react-bootstrap';
 import RegisterReducer from './RegisterReducer';
 
@@ -16,7 +17,7 @@ const Register = () => {
         e.preventDefault();
 
         const formdata = new FormData();
-        formdata.append('username', state.usernames);
+        formdata.append('username', state.username);
         formdata.append('password', state.password);
         formdata.append('confirm_password', state.confirm_password);
         formdata.append('email', state.email);
@@ -95,7 +96,7 @@ const Register = () => {
                         <p className="mt-2">
                             Already have an account?
                             <span>
-                                <a href="/login"> Login</a>
+                                <Link to="/login"> Login</Link>
                             </span>
                         </p>
                     </Form>
