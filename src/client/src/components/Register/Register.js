@@ -1,4 +1,4 @@
-import React, {useReducer} from 'react';
+import React, {useReducer, useEffect} from 'react';
 import {BrowserRouter as Router, Switch, Route, Link, Redirect} from 'react-router-dom';
 import {Container, Form, Button, Row, Col} from 'react-bootstrap';
 import RegisterReducer from './RegisterReducer';
@@ -34,6 +34,10 @@ const Register = () => {
             console.log(error);
         }
     };
+
+    useEffect(() => {
+        document.title = 'Register / Hidden Room';
+    }, []);
 
     return (
         <Container className="d-flex justify-content-center align-items-center h-100" fluid>

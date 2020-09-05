@@ -1,4 +1,4 @@
-import React, {useContext, useReducer} from 'react';
+import React, {useContext, useReducer, useEffect} from 'react';
 import {Container, Form, Button, Row, Col} from 'react-bootstrap';
 import {BrowserRouter as Router, Switch, Route, Link, Redirect} from 'react-router-dom';
 import Cookies from 'js-cookie';
@@ -15,6 +15,10 @@ const Login = () => {
     const user = useContext(UserContext);
 
     const [state, dispatch] = useReducer(LoginReducer, initState);
+
+    useEffect(() => {
+        document.title = 'Login / Hidden Room';
+    }, []);
 
     const onSubmit = async (e) => {
         e.preventDefault();

@@ -22,7 +22,6 @@ class ProfileViewSet(viewsets.ModelViewSet):
 
     def retrieve(self, request, *args, **kwargs):
         self.object = get_object_or_404(Profile, user=self.request.user)
-        print(request.auth)
         return response.Response({
             'username': self.object.user.username,
             'avatar': self.object.avatar,

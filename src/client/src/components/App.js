@@ -1,7 +1,11 @@
-import React, {useContext, useState, useEffect} from 'react';
-import {BrowserRouter as Router, Switch, Route, Link, Redirect} from 'react-router-dom';
+import React, {useState, useEffect} from 'react';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+
+import PrivateRoute from './CustomRoute/PrivateRoute';
+import PublicRoute from './CustomRoute/PublicRoute';
 import Login from './Login/Login';
 import Register from './Register/Register';
+import Home from './Home/Home';
 import UserContext from '../contexts/UserContext';
 import Cookies from 'js-cookie';
 
@@ -31,20 +35,9 @@ const App = () => {
         <UserContext.Provider value={{user: user, getUserDetail: getUserDetail}}>
             <Router>
                 <Switch>
-                    <Route path="/login" component={Login}></Route>
-                    <Route path="/register" component={Register}></Route>
-                    <Route path="/">
-                        <UserContext.Consumer>
-                            {(context) => {
-                                console.log(context);
-                                if (!context['user']['username']) {
-                                    return <Redirect to="/login" />;
-                                } else {
-                                    return <div>Home</div>;
-                                }
-                            }}
-                        </UserContext.Consumer>
-                    </Route>
+                    <PublicRoute restricted="false" path="/login" component={Login} />
+                    <PublicRoute restricted="false" path="/register" component={Register}></PublicRoute>
+                    <PrivateRoute restricted="true" path="/" component={Home} />
                 </Switch>
             </Router>
         </UserContext.Provider>
