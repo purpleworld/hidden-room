@@ -7,7 +7,7 @@ const PublicRoute = ({component: Component, restricted, ...rest}) => {
         <Route
             {...rest}
             render={(props) =>
-                Cookies.get('auth_token') && restricted ? <Redirect to="/" /> : <Component {...props} />
+                Cookies.get('auth_token') && restricted ? <Redirect to="/home" /> : <Component {...props} />
             }
         />
     );

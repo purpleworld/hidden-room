@@ -2,6 +2,7 @@
 
 $base-color: #d85c5c;
 $bg-color: #202225;
+$secondary-color: #3a3e44;
 
 html,
 body,
@@ -71,5 +72,18 @@ form {
 
     p {
         color: #fff;
+    }
+}
+
+.chat-list {
+    background-color: $secondary-color;
+
+    .media {
+        align-items: center;
+        margin-top: 8px;
+
+        img {
+            border-radius: 25px;
+        }
     }
 }
