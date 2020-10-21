@@ -4,19 +4,17 @@ import {Container, Row} from 'react-bootstrap';
 
 import PrivateRoute from '../CustomRoute/PrivateRoute';
 
-import Header from '../Header/Header';
 import Home from '../Home/Home';
 import ChatList from '../ChatList/ChatList';
+import FriendList from '../FriendList/FriendList';
 
 const Main = () => {
     return (
         <Fragment>
-            <Header></Header>
-            <Container className="h-100" fluid>
-                <Row className="h-100">
-                    <ChatList />
-                </Row>
-            </Container>
+            <Row className="no-gutters h-100">
+                <ChatList />
+                <FriendList />
+            </Row>
 
             <Switch>
                 <PrivateRoute restricted="true" path="/home" component={Home}></PrivateRoute>

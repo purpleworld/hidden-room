@@ -8,12 +8,9 @@ const Header = () => {
     const profile = user.user;
 
     return (
-        <Navbar bg="dark" variant="dark" className="justify-content-between">
-            <Navbar.Brand>Hidden Room</Navbar.Brand>
-            <Nav>
-                <a>{profile.username}</a>
-            </Nav>
-        </Navbar>
+        <Nav>
+            <a>{profile.username}</a>
+        </Nav>
     );
 };
 

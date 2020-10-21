@@ -57,6 +57,16 @@ form {
     }
 }
 
+/* Navbar */
+
+Nav {
+    border-bottom: 1px solid rgba($color: #1d1c1c, $alpha: 0.3);
+}
+
+.mobile-menu {
+    width: 24px;
+}
+
 .main-title {
     h1 {
         text-transform: uppercase;
@@ -75,8 +85,17 @@ form {
     }
 }
 
-.chat-list {
+.chats {
     background-color: $secondary-color;
+
+    nav {
+        background-color: $secondary-color;
+    }
+
+    h2 {
+        font-size: 1.2rem;
+        margin: 4px 0;
+    }
 
     .media {
         align-items: center;
@@ -86,4 +105,11 @@ form {
             border-radius: 25px;
         }
     }
+
+    .chat-list {
+        padding: 0 15px;
+    }
+}
+
+.friend-list {
 }
