@@ -5,8 +5,12 @@ import 'holderjs';
 import Header from '../Header/Header';
 
 const FriendList = () => {
+    const handleNavbar = (e) => {
+     
+    };
+
     return (
-        <Col md="10" xs="3" className="friend-list h-100 bg-dark">
+        <Col md="10" xs="12" className="friend-list h-100 bg-dark">
             <Navbar bg="dark" variant="dark" className="justify-content-between align-items-center">
                 <Navbar.Brand className="d-none d-sm-block">Friends</Navbar.Brand>
                 <div className="mobile-menu d-block d-sm-none">

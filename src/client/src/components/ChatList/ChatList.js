@@ -6,7 +6,7 @@ const ChatList = () => {
     return (
         <Col md="2" xs="9" className="chats h-100">
             <Navbar variant="dark" className="justify-content-between align-items-center">
-                <Navbar.Brand className="d-none d-sm-block">Messages</Navbar.Brand>
+                <Navbar.Brand>Messages</Navbar.Brand>
             </Navbar>
             <ul className="chat-list list-unstyled">
                 <Media as="li">
