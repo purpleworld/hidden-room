@@ -1,23 +1,28 @@
-import React, {useContext, useState, useEffect, Fragment} from 'react';
+import React, {useContext, useReducer, useEffect, Fragment} from 'react';
 import {Col, Media, Navbar} from 'react-bootstrap';
 import 'holderjs';
 
 import Header from '../Header/Header';
+import FriendListReducer from './FriendListReducer';
 import './FriendList.scss';
 
 const FriendList = () => {
-    const [isOpen, setIsOpen] = useState(false);
+    const initState = {
+        isOpen: false,
+    };
+
+    const [state, dispatch] = useReducer(FriendListReducer, initState);
 
     const handleNavbar = () => {
-        if (isOpen) {
-            setIsOpen(false);
+        if (state.isOpen) {
+            dispatch({type: 'close'});
         } else {
-            setIsOpen(true);
+            dispatch({type: 'open'});
         }
     };
 
     return (
-        <Col md="10" xs="12" className={`friend-list h-100 bg-dark ${isOpen ? 'open' : ''}`}>
+        <Col md="10" xs="12" className={`friend-list h-100 bg-dark ${state.isOpen ? 'open' : ''}`}>
             <Navbar bg="dark" variant="dark" className="justify-content-between align-items-center">
                 <Navbar.Brand className="d-none d-sm-block">Friends</Navbar.Brand>
                 <div className="mobile-menu d-block d-sm-none" onClick={handleNavbar}>
