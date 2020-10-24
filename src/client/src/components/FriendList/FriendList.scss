@@ -1,0 +1,16 @@
+@import '../App.scss';
+
+@media (max-width: 425px) {
+    .friend-list {
+        position: fixed !important;
+        transition: 0.3s;
+
+        Nav {
+            height: 57px;
+        }
+    }
+
+    .friend-list.open {
+        transform: translateX(75%);
+    }
+}
