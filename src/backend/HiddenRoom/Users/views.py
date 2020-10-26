@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, get_list_or_404
 from rest_framework import viewsets, generics, authentication, permissions, response
 from rest_framework.authtoken.views import ObtainAuthToken, APIView
 from rest_framework.authtoken.models import Token
@@ -32,7 +32,12 @@ class ProfileViewSet(viewsets.ModelViewSet):
 class FriendViewSet(viewsets.ModelViewSet):
     queryset = Friend.objects.all()
     serializer_class = FriendSerializer
+    authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
+
+    def retrieve(self, request, *args, **kwargs):
+        friends = Friend.objects.filter(user_id=self.request.user)
+        return response.Response({'friends': friends.values()})
 
 
 class AccountCreate(generics.CreateAPIView):

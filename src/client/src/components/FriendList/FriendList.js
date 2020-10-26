@@ -9,6 +9,7 @@ import './FriendList.scss';
 const FriendList = () => {
     const initState = {
         isOpen: false,
+        friends: {},
     };
 
     const [state, dispatch] = useReducer(FriendListReducer, initState);
@@ -20,6 +21,10 @@ const FriendList = () => {
             dispatch({type: 'open'});
         }
     };
+
+    const getFriends = async () => {
+        let res = await fetch(`${process.env.API_URL}/account/create/`))
+    }
 
     return (
         <Col md="10" xs="12" className={`friend-list h-100 bg-dark ${state.isOpen ? 'open' : ''}`}>
