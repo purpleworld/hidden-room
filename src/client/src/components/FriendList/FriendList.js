@@ -1,6 +1,7 @@
 import React, {useContext, useReducer, useEffect, Fragment} from 'react';
 import {Col, Media, Navbar} from 'react-bootstrap';
 import 'holderjs';
+import Cookies from 'js-cookie';
 
 import Header from '../Header/Header';
 import FriendListReducer from './FriendListReducer';
@@ -23,8 +24,21 @@ const FriendList = () => {
     };
 
     const getFriends = async () => {
-        let res = await fetch(`${process.env.API_URL}/account/create/`))
-    }
+        let res = await fetch(`${process.env.API_URL}/api/account/friends/`, {
+            headers: {Authorization: `Token ${Cookies.get('auth_token')}`},
+        });
+        if (res.ok) {
+            let response = await res.json();
+            console.log(response);
+        } else {
+            let error = await res.json();
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        getFriends();
+    }, []);
 
     return (
         <Col md="10" xs="12" className={`friend-list h-100 bg-dark ${state.isOpen ? 'open' : ''}`}>

@@ -35,9 +35,9 @@ class FriendViewSet(viewsets.ModelViewSet):
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
-    def retrieve(self, request, *args, **kwargs):
+    def retrieve(self, request):
         friends = Friend.objects.filter(user_id=self.request.user)
-        return response.Response({'friends': friends.values()})
+        return response.Response(friends.values())
 
 
 class AccountCreate(generics.CreateAPIView):

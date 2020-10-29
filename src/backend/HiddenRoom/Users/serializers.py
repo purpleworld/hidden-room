@@ -45,7 +45,8 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
         
 
 class FriendSerializer(serializers.HyperlinkedModelSerializer):
-    user_id = serializers.HyperlinkedRelatedField(queryset=User.objects.all(), view_name='user-detail')
+    user_id = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='username')
+    user2_id = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='username')
     class Meta:
         model = Friend
         fields = ['user_id', 'user2_id', 'relationship', 'since']
