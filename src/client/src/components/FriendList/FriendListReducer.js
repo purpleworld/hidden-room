@@ -10,6 +10,11 @@ const FriendListReducer = (state, action) => {
                 ...state,
                 isOpen: false,
             };
+        case 'get_friend':
+            return {
+                ...state,
+                friends: action.friends,
+            };
     }
 };
 

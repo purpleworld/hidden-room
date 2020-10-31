@@ -10,7 +10,7 @@ import './FriendList.scss';
 const FriendList = () => {
     const initState = {
         isOpen: false,
-        friends: {},
+        friends: [],
     };
 
     const [state, dispatch] = useReducer(FriendListReducer, initState);
@@ -29,12 +29,29 @@ const FriendList = () => {
         });
         if (res.ok) {
             let response = await res.json();
-            console.log(response);
+            dispatch({type: 'get_friend', friends: response});
         } else {
             let error = await res.json();
             console.log(error);
         }
     };
+
+    const friends = state.friends.map((friend, i) => {
+        return (
+            <Media as="li" key={i}>
+                <img
+                    width={36}
+                    height={36}
+                    className="mr-3"
+                    src="holder.js/36x36"
+                    alt={friend.user2_id + "'s avatar"}
+                />
+                <Media.Body>
+                    <h6>{friend.user2_id}</h6>
+                </Media.Body>
+            </Media>
+        );
+    });
 
     useEffect(() => {
         getFriends();
@@ -56,6 +73,7 @@ const FriendList = () => {
                 </div>
                 <Header />
             </Navbar>
+            <ul className="friends-list list-unstyled">{friends}</ul>
         </Col>
     );
 };

@@ -10,19 +10,19 @@ const ChatList = () => {
             </Navbar>
             <ul className="chat-list list-unstyled">
                 <Media as="li">
-                    <img width={64} height={64} className="mr-3" src="holder.js/36x36" alt="Generic placeholder" />
+                    <img width={36} height={36} className="mr-3" src="holder.js/36x36" alt="Generic placeholder" />
                     <Media.Body>
                         <h6>Placeholder</h6>
                     </Media.Body>
                 </Media>
                 <Media as="li">
-                    <img width={64} height={64} className="mr-3" src="holder.js/36x36" alt="Generic placeholder" />
+                    <img width={36} height={36} className="mr-3" src="holder.js/36x36" alt="Generic placeholder" />
                     <Media.Body>
                         <h6>Placeholder</h6>
                     </Media.Body>
                 </Media>
                 <Media as="li">
-                    <img width={64} height={64} className="mr-3" src="holder.js/36x36" alt="Generic placeholder" />
+                    <img width={36} height={36} className="mr-3" src="holder.js/36x36" alt="Generic placeholder" />
                     <Media.Body>
                         <h6>Placeholder</h6>
                     </Media.Body>
