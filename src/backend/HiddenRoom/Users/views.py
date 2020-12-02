@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404
-from rest_framework import viewsets, generics, authentication, permissions, response
+from rest_framework import viewsets, generics, authentication, permissions, response, mixins
 from rest_framework.authtoken.views import ObtainAuthToken, APIView
 from rest_framework.authtoken.models import Token
 
@@ -32,16 +32,37 @@ class ProfileViewSet(viewsets.ModelViewSet):
 class FriendViewSet(viewsets.ModelViewSet):
     queryset = Friend.objects.all()
     serializer_class = FriendSerializer
-    authentication_classes = [authentication.TokenAuthentication]
+    #authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
-
 
     def retrieve(self, request):
         queryset = Friend.objects.filter(user_id=self.request.user)
-        serializer = FriendSerializer(queryset, many=True)
+        serializer = FriendSerializer(queryset, many=True, context={'request': request})
         return response.Response(serializer.data)
 
 
+class UpdateFriendView(generics.RetrieveUpdateAPIView):
+    queryset = Friend.objects.all()
+    serializer_class = FriendSerializer
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        user = self.request.user
+        user2 = self.kwargs['user2_id']
+        return get_object_or_404(Friend, user_id=user, user2_id=user2)
+'''
+    def update(self, request, *args, **kwargs):
+        instance = get_object_or_404(Friend, user_id=self.request.user, user2_id=request.data.get('user2_id'))
+        instance.relationship = request.data.get("relationship")
+        instance.save()
+
+        serializer = self.get_serializer(instance)
+        if serializer.is_valid():
+            self.perform_update(serializer)
+
+        return instance
+'''
 class AccountCreate(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer

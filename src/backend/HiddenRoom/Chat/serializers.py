@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from .models import Chatroom, ChatroomUser, PrivateChatroom, Message, PrivateMessage
 
 
+
+
 class ChatroomSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Chatroom
@@ -18,8 +20,8 @@ class ChatroomUserSerializer(serializers.HyperlinkedModelSerializer):
         extra_kwargs = {'joined_date': {'read_only': True}}
 
 class PrivateChatroomSerializer(serializers.HyperlinkedModelSerializer):
-    user1 = serializers.HyperlinkedRelatedField(queryset=User.objects.all(), view_name='user-detail')
-    user2 = serializers.HyperlinkedRelatedField(queryset=User.objects.all(), view_name='user-detail')
+    user1 = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='username')
+    user2 = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='username')
     
     class Meta:
         model = PrivateChatroom

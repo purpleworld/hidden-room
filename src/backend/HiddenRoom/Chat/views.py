@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from rest_framework import viewsets
+from django.contrib.auth.models import User
+from rest_framework import viewsets, authentication, response
 from rest_framework import permissions
 from .serializers import ChatroomSerializer, ChatroomUserSerializer, PrivateChatroomSerializer, MessageSerializer, PrivateMessageSerializer
 from .models import Chatroom, ChatroomUser, PrivateChatroom, Message, PrivateMessage
@@ -18,7 +19,19 @@ class ChatroomUserViewSet(viewsets.ModelViewSet):
 class PrivateChatroomViewSet(viewsets.ModelViewSet):
     queryset = PrivateChatroom.objects.all()
     serializer_class = PrivateChatroomSerializer
+    authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
+
+    def retrieve(self, request):
+        user2 = self.request.query_params.get('user2', None)
+        
+        if(user2 is not None):
+            queryset = PrivateChatroom.objects.filter(user1=self.request.user, user2=user2)
+        else:
+            queryset = PrivateChatroom.objects.filter(user1=self.request.user)
+  
+        serializer = PrivateChatroomSerializer(queryset, many=True, context={'request': request})
+        return response.Response(serializer.data)
 
 class MessageViewSet(viewsets.ModelViewSet):
     queryset = Message.objects.all()

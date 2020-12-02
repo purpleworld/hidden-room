@@ -14,3 +14,19 @@
         transform: translateX(75%);
     }
 }
+
+.friend-list {
+    .media {
+        align-items: center;
+        padding: 6px 18px;
+
+        img {
+            border-radius: 25px;
+        }
+    }
+
+    .media:hover {
+        cursor: pointer;
+        background-color: #3b4148;
+    }
+}

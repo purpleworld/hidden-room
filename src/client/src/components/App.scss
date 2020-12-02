@@ -98,7 +98,7 @@ Nav {
     }
 
     .media {
-        align-items: center;
+        align-items: center !important;
         margin-top: 8px;
 
         img {
@@ -110,4 +110,3 @@ Nav {
         padding: 0 15px;
     }
 }
-

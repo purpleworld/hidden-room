@@ -21,4 +21,5 @@ urlpatterns = [
     re_path(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     re_path(r'^api/auth/', GetToken.as_view()),
     re_path(r'^api/account/', include('Users.urls')),
+    re_path(r'^api/chat/', include('Chat.urls')),
 ]

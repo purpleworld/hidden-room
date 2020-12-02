@@ -1,5 +1,5 @@
 import React, {useContext, useReducer, useEffect, Fragment} from 'react';
-import {Col, Media, Navbar} from 'react-bootstrap';
+import {Col, Media, Navbar, Button} from 'react-bootstrap';
 import 'holderjs';
 import Cookies from 'js-cookie';
 
@@ -38,16 +38,10 @@ const FriendList = () => {
 
     const friends = state.friends.map((friend, i) => {
         return (
-            <Media as="li" key={i}>
-                <img
-                    width={36}
-                    height={36}
-                    className="mr-3"
-                    src="holder.js/36x36"
-                    alt={friend.user2_id + "'s avatar"}
-                />
+            <Media data-user-id={friend.user2_id.id} as="li" key={i}>
+                <img width={36} height={36} className="mr-3" src="holder.js/36x36" />
                 <Media.Body>
-                    <h6>{friend.user2_id}</h6>
+                    <h6>{friend.user2_id.username}</h6>
                 </Media.Body>
             </Media>
         );
@@ -71,7 +65,7 @@ const FriendList = () => {
                         />
                     </svg>
                 </div>
-                <Header />
+                <Button variant="hidden">Add Friend</Button>
             </Navbar>
             <ul className="friends-list list-unstyled">{friends}</ul>
         </Col>
