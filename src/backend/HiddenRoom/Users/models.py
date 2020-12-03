@@ -29,3 +29,8 @@ class Friend(models.Model):
     user2_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user2_id', null=False)
     relationship = models.CharField(max_length=50, choices=RELATIONSHIP_STATUS, default='PENDING')
     since = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user_id', 'user2_id'], name='unique_friendship') 
+        ]

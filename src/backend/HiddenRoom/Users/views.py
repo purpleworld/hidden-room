@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404
-from rest_framework import viewsets, generics, authentication, permissions, response, mixins
+from rest_framework import viewsets, generics, authentication, permissions, response, status
 from rest_framework.authtoken.views import ObtainAuthToken, APIView
 from rest_framework.authtoken.models import Token
 
@@ -32,37 +32,42 @@ class ProfileViewSet(viewsets.ModelViewSet):
 class FriendViewSet(viewsets.ModelViewSet):
     queryset = Friend.objects.all()
     serializer_class = FriendSerializer
-    #authentication_classes = [authentication.TokenAuthentication]
+    authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
-
+    
     def retrieve(self, request):
         queryset = Friend.objects.filter(user_id=self.request.user)
         serializer = FriendSerializer(queryset, many=True, context={'request': request})
         return response.Response(serializer.data)
 
 
-class UpdateFriendView(generics.RetrieveUpdateAPIView):
+class UpdateFriendView(generics.UpdateAPIView):
     queryset = Friend.objects.all()
     serializer_class = FriendSerializer
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
+    lookup_field = 'user2_id'
 
     def get_object(self):
-        user = self.request.user
-        user2 = self.kwargs['user2_id']
-        return get_object_or_404(Friend, user_id=user, user2_id=user2)
-'''
-    def update(self, request, *args, **kwargs):
-        instance = get_object_or_404(Friend, user_id=self.request.user, user2_id=request.data.get('user2_id'))
-        instance.relationship = request.data.get("relationship")
-        instance.save()
+        queryset = self.filter_queryset(self.get_queryset())
 
-        serializer = self.get_serializer(instance)
-        if serializer.is_valid():
-            self.perform_update(serializer)
+        lookup_url_kwarg = self.lookup_url_kwarg or self.lookup_field
 
-        return instance
-'''
+        assert lookup_url_kwarg in self.kwargs, (
+            'Expected view %s to be called with a URL keyword argument '
+            'named "%s". Fix your URL conf, or set the `.lookup_field` '
+            'attribute on the view correctly.' %
+            (self.__class__.__name__, lookup_url_kwarg)
+        )
+
+        filter_kwargs = {self.lookup_field: self.kwargs[lookup_url_kwarg]}
+        obj = get_object_or_404(queryset, user_id=self.request.user.id, **filter_kwargs)
+
+        self.check_object_permissions(self.request, obj)
+
+        return obj
+
+
 class AccountCreate(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer

@@ -48,11 +48,8 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['user', 'avatar', 'status']
         
 
-class FriendSerializer(serializers.HyperlinkedModelSerializer):
-    user_id = serializers.HyperlinkedRelatedField(queryset=User.objects.all(), view_name='user-detail')
-    user2_id = serializers.HyperlinkedRelatedField(queryset=User.objects.all(), view_name='user-detail')
-    #user2_id = UserSerializer(read_only=True)
-    
+class FriendSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Friend
         fields = ['user_id', 'user2_id', 'relationship']
@@ -61,6 +58,7 @@ class FriendSerializer(serializers.HyperlinkedModelSerializer):
     def update(self, instance, validated_data):
         user = self.context['request'].user
         instance = get_object_or_404(Friend, user_id=user, user2_id=validated_data.get('user2_id'))
+        
         if(user.pk != instance.user_id.id):
             raise serializers.ValidationError({"authorize": "You don't have permission for this."})
 
