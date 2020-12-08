@@ -54,6 +54,14 @@ class FriendSerializer(serializers.ModelSerializer):
         model = Friend
         fields = ['user_id', 'user2_id', 'relationship']
         extra_kwargs = {'since': {'read_only': True}}
+
+    def create(self, validated_data):
+        data = dict(validated_data)
+        data['relationship'] = "PENDING"
+        obj = Friend.objects.create(**data)
+        obj.save()
+        return obj
+
     
     def update(self, instance, validated_data):
         user = self.context['request'].user
