@@ -38,7 +38,7 @@ const FriendList = () => {
 
     const friends = state.friends.map((friend, i) => {
         return (
-            <Media data-user-id={friend.user2_id.id} as="li" key={i}>
+            <Media data-user-id={friend.user2_id} as="li" key={i}>
                 <img width={36} height={36} className="mr-3" src="holder.js/36x36" />
                 <Media.Body>
                     <h6>{friend.user2_id.username}</h6>

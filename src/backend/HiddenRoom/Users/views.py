@@ -3,16 +3,22 @@ from rest_framework import viewsets, generics, authentication, permissions, resp
 from rest_framework.authtoken.views import ObtainAuthToken, APIView
 from rest_framework.authtoken.models import Token
 
-from .serializers import ProfileSerializer, UserSerializer, FriendSerializer
+from .serializers import ProfileSerializer, UserSerializer, FriendSerializer, AccountSerializer
 from django.contrib.auth.models import User
 from .models import Profile, Friend
 
-
+'''
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
-    
+'''
+
+class AccountDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = AccountSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [authentication.TokenAuthentication]
 
 class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()

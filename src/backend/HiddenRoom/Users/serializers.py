@@ -6,13 +6,13 @@ from .models import Profile, Friend
 from Chat.models import PrivateChatroom
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     confirm_password = serializers.CharField(min_length=8, max_length=100, write_only=True, required=True)
     
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'password', 'confirm_password']
-        extra_kwargs = {'password': {'write_only': True}}
+        fields = ['id', 'username', 'email', 'password', 'confirm_password', 'is_staff']
+        extra_kwargs = {'password': {'write_only': True}, 'is_staff': {'read_only': False}}
         
     def create(self, validated_data):
         user = User.objects.create_user(
@@ -40,16 +40,26 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         return instance
 
 
-class ProfileSerializer(serializers.HyperlinkedModelSerializer):
-    user = serializers.HyperlinkedRelatedField(queryset=User.objects.all(), view_name='user-detail')
-
+class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ['user', 'avatar', 'status']
-        
+        fields = ['avatar', 'status']
+
+
+class AccountSerializer(serializers.ModelSerializer):
+    profile = ProfileSerializer(many=False, read_only=True)
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'profile', 'is_staff']
+        read_only_fields = ['id', 'username', 'is_staff']
+
+
 
 class FriendSerializer(serializers.ModelSerializer):
-
+    user2_id = serializers.HyperlinkedRelatedField(
+        queryset=User.objects.all(),
+        view_name='profile-detail'
+    )
     class Meta:
         model = Friend
         fields = ['user_id', 'user2_id', 'relationship']
