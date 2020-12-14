@@ -19,7 +19,7 @@ router.register(r'private-messages', PrivateMessageViewSet)
 urlpatterns = [
     re_path(r'^api/v1/', include(router.urls)),
     re_path(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    re_path(r'^api/auth/', GetToken.as_view()),
+    re_path(r'^api/v1/auth/', GetToken.as_view()),
     re_path(r'^api/v1/account/', include('Users.urls')),
-    re_path(r'^api/chat/', include('Chat.urls')),
+    re_path(r'^api/v1/chat/', include('Chat.urls')),
 ]

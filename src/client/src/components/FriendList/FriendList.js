@@ -24,7 +24,7 @@ const FriendList = () => {
     };
 
     const getFriends = async () => {
-        let res = await fetch(`${process.env.API_URL}/api/account/friends/`, {
+        let res = await fetch(`${process.env.API_URL}/api/v1/account/friends/`, {
             headers: {Authorization: `Token ${Cookies.get('auth_token')}`},
         });
         if (res.ok) {

@@ -14,7 +14,7 @@ const App = () => {
     const [user, setUser] = useState({});
 
     const getUserDetail = async () => {
-        let res = await fetch(`${process.env.API_URL}/api/account/me/`, {
+        let res = await fetch(`${process.env.API_URL}/api/v1/account/me/`, {
             headers: {Authorization: `Token ${Cookies.get('auth_token')}`},
             method: 'GET',
         });

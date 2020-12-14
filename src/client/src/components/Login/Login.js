@@ -27,7 +27,7 @@ const Login = () => {
         formdata.append('username', state.username);
         formdata.append('password', state.password);
 
-        let res = await fetch(`${process.env.API_URL}/api/auth/`, {
+        let res = await fetch(`${process.env.API_URL}/api/v1/auth/`, {
             body: formdata,
             method: 'POST',
         });
