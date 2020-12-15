@@ -1,8 +1,9 @@
 import React, {useContext, useReducer, useEffect, Fragment} from 'react';
-import {Col, Media, Navbar, Button} from 'react-bootstrap';
+import {Col, Media, Navbar, Nav, Button} from 'react-bootstrap';
 import 'holderjs';
 import Cookies from 'js-cookie';
 
+import Card from '../Card/Card';
 import FriendListReducer from './FriendListReducer';
 import './FriendList.scss';
 
@@ -28,7 +29,6 @@ const FriendList = () => {
         });
         if (res.ok) {
             let response = await res.json();
-            console.log(response);
             dispatch({type: 'get_friend', friends: response});
         } else {
             let error = await res.json();
@@ -52,14 +52,7 @@ const FriendList = () => {
     };
 
     const friends = state.friends.map((friend, i) => {
-        return (
-            <Media data-user-id={friend.user2_id} as="li" key={i}>
-                <img width={36} height={36} className="mr-3" src="holder.js/36x36" />
-                <Media.Body>
-                    <h6>{friend.username}</h6>
-                </Media.Body>
-            </Media>
-        );
+        return <Card friend={friend} key={friend.id}></Card>;
     });
 
     useEffect(() => {
@@ -70,6 +63,11 @@ const FriendList = () => {
         <Col md="10" xs="12" className={`friend-list h-100 bg-dark ${state.isOpen ? 'open' : ''}`}>
             <Navbar bg="dark" variant="dark" className="justify-content-between align-items-center">
                 <Navbar.Brand className="d-none d-sm-block">Friends</Navbar.Brand>
+                <Nav>
+                    <Nav.Link>Friends</Nav.Link>
+                    <Nav.Link>Pending</Nav.Link>
+                    <Nav.Link>Blocked</Nav.Link>
+                </Nav>
                 <div className="mobile-menu d-block d-sm-none" onClick={handleNavbar}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path
