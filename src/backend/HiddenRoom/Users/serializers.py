@@ -50,15 +50,16 @@ class AccountSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer(many=False, read_only=True)
     class Meta:
         model = User
-        fields = ['id', 'username', 'profile', 'is_staff']
+        fields = ['username', 'profile', 'is_staff']
         read_only_fields = ['id', 'username', 'is_staff']
 
 
 
 class FriendSerializer(serializers.ModelSerializer):
+    account = AccountSerializer(many=False, read_only=True, source="user2_id")
     class Meta:
         model = Friend
-        fields = ['user_id', 'user2_id', 'relationship']
+        fields = ['user_id', 'user2_id', 'account', 'relationship']
         extra_kwargs = {'since': {'read_only': True}}
 
     def create(self, validated_data):

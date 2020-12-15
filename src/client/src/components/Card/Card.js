@@ -3,10 +3,10 @@ import {Media} from 'react-bootstrap';
 
 const Card = (props) => {
     return (
-        <Media data-user-id={props.friend.id} as="li">
+        <Media as="li">
             <img width={36} height={36} className="mr-3" src="holder.js/36x36" />
             <Media.Body>
-                <h6>{props.friend.username}</h6>
+                <h6>{props.friend.account.username}</h6>
             </Media.Body>
         </Media>
     );

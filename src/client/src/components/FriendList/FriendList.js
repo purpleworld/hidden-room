@@ -23,28 +23,13 @@ const FriendList = () => {
         }
     };
 
-    const getFriendProfile = async (friend_id) => {
-        let res = await fetch(`${process.env.API_URL}/api/v1/account/profile/${friend_id}/`, {
-            headers: {Authorization: `Token ${Cookies.get('auth_token')}`},
-        });
-        if (res.ok) {
-            let response = await res.json();
-            dispatch({type: 'get_friend', friends: response});
-        } else {
-            let error = await res.json();
-            console.log(error);
-        }
-    };
-
     const getFriends = async () => {
         let res = await fetch(`${process.env.API_URL}/api/v1/account/friends/`, {
             headers: {Authorization: `Token ${Cookies.get('auth_token')}`},
         });
         if (res.ok) {
             let response = await res.json();
-            response.map((response) => {
-                getFriendProfile(response.user2_id);
-            });
+            dispatch({type: 'get_friend', friends: response});
         } else {
             let error = await res.json();
             console.log(error);

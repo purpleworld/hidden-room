@@ -13,7 +13,7 @@ const FriendListReducer = (state, action) => {
         case 'get_friend':
             return {
                 ...state,
-                friends: [...state.friends, action.friends],
+                friends: action.friends,
             };
     }
 };
