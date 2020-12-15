@@ -56,10 +56,6 @@ class AccountSerializer(serializers.ModelSerializer):
 
 
 class FriendSerializer(serializers.ModelSerializer):
-    user2_id = serializers.HyperlinkedRelatedField(
-        queryset=User.objects.all(),
-        view_name='profile-detail'
-    )
     class Meta:
         model = Friend
         fields = ['user_id', 'user2_id', 'relationship']
