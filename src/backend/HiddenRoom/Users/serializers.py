@@ -54,7 +54,6 @@ class AccountSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'username', 'is_staff']
 
 
-
 class FriendSerializer(serializers.ModelSerializer):
     account = AccountSerializer(many=False, read_only=True, source="user2_id")
     class Meta:

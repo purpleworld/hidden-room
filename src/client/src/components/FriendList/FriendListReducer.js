@@ -15,6 +15,12 @@ const FriendListReducer = (state, action) => {
                 ...state,
                 friends: action.friends,
             };
+
+        case 'filter_friend':
+            return {
+                ...state,
+                filterFriend: action.filterFriend,
+            };
     }
 };
 
