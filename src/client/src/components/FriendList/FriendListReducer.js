@@ -16,10 +16,10 @@ const FriendListReducer = (state, action) => {
                 friends: action.friends,
             };
 
-        case 'filter_friend':
+        case 'pills_friend':
             return {
                 ...state,
-                filterFriend: action.filterFriend,
+                pillsFriend: action.pillsFriend,
             };
     }
 };
