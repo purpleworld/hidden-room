@@ -2,17 +2,12 @@ from django.shortcuts import render, get_object_or_404, get_list_or_404
 from rest_framework import viewsets, generics, authentication, permissions, response, status
 from rest_framework.authtoken.views import ObtainAuthToken, APIView
 from rest_framework.authtoken.models import Token
+from rest_framework.exceptions import NotFound
 
 from .serializers import ProfileSerializer, UserSerializer, FriendSerializer, AccountSerializer
 from django.contrib.auth.models import User
 from .models import Profile, Friend
 
-'''
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all().order_by('-date_joined')
-    serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
-'''
 
 class AccountDetail(generics.RetrieveAPIView):
     queryset = User.objects.all()
@@ -34,12 +29,31 @@ class ProfileViewSet(viewsets.ModelViewSet):
             'status': self.object.status,
         })
 
-
 class FriendViewSet(viewsets.ModelViewSet):
     queryset = Friend.objects.all()
     serializer_class = FriendSerializer
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
+     
+    def create(self, request, *args, **kwargs):
+        data = dict(request.data)
+        if(data['username'][0] == ''):
+            raise NotFound('Not found')
+        
+        data['user_id'] = self.request.user.id
+        data['user2_id'] = User.objects.get(username=data['username'][0]).id
+        data.pop('username')
+        print(data)
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return response.Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        
+
+    def perform_create(self, serializer):
+        serializer.save()
+
     
     def retrieve(self, request):
         queryset = Friend.objects.filter(user_id=self.request.user)
