@@ -37,9 +37,6 @@ class FriendViewSet(viewsets.ModelViewSet):
      
     def create(self, request, *args, **kwargs):
         data = dict(request.data)
-        if(data['username'][0] == ''):
-            raise NotFound('Not found')
-        
         data['user_id'] = self.request.user.id
         data['user2_id'] = User.objects.get(username=data['username'][0]).id
         data.pop('username')

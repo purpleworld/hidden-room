@@ -9,6 +9,22 @@ const AddFriend = () => {
 
     const onSubmit = async (e) => {
         e.preventDefault();
+
+        const formdata = new FormData();
+        formdata.append('username', state.username);
+
+        let res = await fetch(`${process.env.API_URL}/api/v1/account/friends/add/`, {
+            body: formdata,
+            method: 'POST',
+            headers: {Authorization: `Token ${Cookies.get('auth_token')}`},
+        });
+
+        if (res.ok) {
+            console.log('Request sent');
+        } else {
+            let error = await res.json();
+            console.log(error);
+        }
     };
 
     return (

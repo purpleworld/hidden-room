@@ -22,7 +22,7 @@ const Register = () => {
         formdata.append('confirm_password', state.confirm_password);
         formdata.append('email', state.email);
 
-        let res = await fetch(`${process.env.API_URL}/v1/account/create/`, {
+        let res = await fetch(`${process.env.API_URL}/api/v1/account/create/`, {
             body: formdata,
             method: 'POST',
         });
