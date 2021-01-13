@@ -20,7 +20,7 @@ const AddFriend = () => {
         });
 
         if (res.ok) {
-            console.log('Request sent');
+            return;
         } else {
             let error = await res.json();
             console.log(error);

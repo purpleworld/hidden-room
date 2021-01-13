@@ -43,10 +43,6 @@ const FriendList = () => {
         }
     };
 
-    useEffect(() => {
-        getFriends();
-    }, [state.pillsFriend]);
-
     const friends = state.friends.map((friend) => {
         if (state.pillsFriend.toUpperCase() == friend.relationship) {
             return <Card friend={friend} key={friend.id}></Card>;
@@ -54,6 +50,10 @@ const FriendList = () => {
             return;
         }
     });
+
+    useEffect(() => {
+        getFriends();
+    }, [state.pillsFriend]);
 
     return (
         <Fragment>

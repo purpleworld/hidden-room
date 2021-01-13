@@ -31,6 +31,20 @@ body {
     }
 }
 
+.btn-hidden-option {
+    color: #fff;
+    background-color: #20222586;
+    border-radius: 50px;
+
+    &:hover {
+        color: #c21c1c;
+    }
+
+    &:focus {
+        box-shadow: none;
+    }
+}
+
 label {
     color: #8e8e8e;
     font-size: 0.8rem;
