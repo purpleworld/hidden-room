@@ -10,5 +10,6 @@ urlpatterns = [
     
     path('friends/', views.FriendViewSet.as_view({'get': 'retrieve'})),
     path('friends/add/', views.FriendViewSet.as_view({'post': 'create'})),
-    path('friends/<int:user2_id>/update/', views.UpdateFriendView.as_view())
+    path('friends/<int:user2_id>/update/', views.UpdateFriendView.as_view()),
+    path('friends/<int:pk>/',  views.FriendViewSet.as_view({'delete': 'destroy'})),
 ]

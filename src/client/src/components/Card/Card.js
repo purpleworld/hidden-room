@@ -6,19 +6,16 @@ import Cookies from 'js-cookie';
 import './Card.scss';
 
 const deleteFriend = async (props) => {
-    console.log(props);
     const formdata = new FormData();
-    formdata.append('user_id', props.user_id);
-    formdata.append('user2_id', props.user2_id);
 
-    let res = await fetch(`${process.env.API_URL}/api/v1/account/friends/`, {
+    let res = await fetch(`${process.env.API_URL}/api/v1/account/friends/${props.friend.id}/`, {
         body: formdata,
         method: 'DELETE',
         headers: {Authorization: `Token ${Cookies.get('auth_token')}`},
     });
 
     if (res.ok) {
-        console.log('deleted');
+        return;
     } else {
         let error = await res.json();
         console.log(error);
@@ -28,7 +25,7 @@ const deleteFriend = async (props) => {
 const options = (props) => {
     if (props.friend.relationship == 'PENDING') {
         return (
-            <Button variant="hidden-option" onClick={deleteFriend}>
+            <Button variant="hidden-option" onClick={() => deleteFriend(props)}>
                 <BsX size={20} />
             </Button>
         );
