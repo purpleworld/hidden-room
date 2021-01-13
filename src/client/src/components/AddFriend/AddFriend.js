@@ -21,9 +21,6 @@ const AddFriend = () => {
 
         if (res.ok) {
             return;
-        } else {
-            let error = await res.json();
-            console.log(error);
         }
     };
 

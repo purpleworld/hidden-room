@@ -20,6 +20,7 @@ const FriendList = () => {
 
     const handleSelect = (eventKey) => {
         dispatch({type: 'pills_friend', pillsFriend: eventKey});
+        getFriends();
     };
 
     const handleNavbar = () => {
@@ -45,7 +46,7 @@ const FriendList = () => {
 
     const friends = state.friends.map((friend) => {
         if (state.pillsFriend.toUpperCase() == friend.relationship) {
-            return <Card friend={friend} key={friend.id}></Card>;
+            return <Card friend={friend} key={friend.id} getFriends={getFriends}></Card>;
         } else {
             return;
         }
@@ -53,7 +54,7 @@ const FriendList = () => {
 
     useEffect(() => {
         getFriends();
-    }, [state.pillsFriend]);
+    }, []);
 
     return (
         <Fragment>

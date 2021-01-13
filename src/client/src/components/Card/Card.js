@@ -6,20 +6,11 @@ import Cookies from 'js-cookie';
 import './Card.scss';
 
 const deleteFriend = async (props) => {
-    const formdata = new FormData();
-
-    let res = await fetch(`${process.env.API_URL}/api/v1/account/friends/${props.friend.id}/`, {
-        body: formdata,
+    await fetch(`${process.env.API_URL}/api/v1/account/friends/${props.friend.id}/`, {
         method: 'DELETE',
         headers: {Authorization: `Token ${Cookies.get('auth_token')}`},
     });
-
-    if (res.ok) {
-        return;
-    } else {
-        let error = await res.json();
-        console.log(error);
-    }
+    props.getFriends();
 };
 
 const options = (props) => {
