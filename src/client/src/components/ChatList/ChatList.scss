@@ -1,0 +1,25 @@
+.chats {
+    background-color: $secondary-color;
+
+    nav {
+        background-color: $secondary-color;
+    }
+
+    h2 {
+        font-size: 1.2rem;
+        margin: 4px 0;
+    }
+
+    .media {
+        align-items: center !important;
+        margin-top: 8px;
+
+        img {
+            border-radius: 25px;
+        }
+    }
+
+    .chat-list {
+        padding: 0 15px;
+    }
+}

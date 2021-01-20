@@ -1,9 +1,3 @@
-@import '~bootstrap/scss/bootstrap';
-
-$base-color: #d85c5c;
-$bg-color: #202225;
-$secondary-color: #3a3e44;
-
 html,
 body,
 #root {
@@ -96,31 +90,5 @@ Nav {
 
     p {
         color: #fff;
-    }
-}
-
-.chats {
-    background-color: $secondary-color;
-
-    nav {
-        background-color: $secondary-color;
-    }
-
-    h2 {
-        font-size: 1.2rem;
-        margin: 4px 0;
-    }
-
-    .media {
-        align-items: center !important;
-        margin-top: 8px;
-
-        img {
-            border-radius: 25px;
-        }
-    }
-
-    .chat-list {
-        padding: 0 15px;
     }
 }

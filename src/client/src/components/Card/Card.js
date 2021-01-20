@@ -3,8 +3,6 @@ import {Media, Button} from 'react-bootstrap';
 import {BsX} from 'react-icons/bs';
 import Cookies from 'js-cookie';
 
-import './Card.scss';
-
 const deleteFriend = async (props) => {
     await fetch(`${process.env.API_URL}/api/v1/account/friends/${props.friend.id}/`, {
         method: 'DELETE',

@@ -2,6 +2,8 @@ import React, {useContext, useState, useEffect} from 'react';
 import {Col, Media, Navbar} from 'react-bootstrap';
 import 'holderjs';
 
+import Profile from '../Profile/Profile';
+
 const ChatList = () => {
     return (
         <Col md="2" xs="9" className="chats h-100">
@@ -28,6 +30,7 @@ const ChatList = () => {
                     </Media.Body>
                 </Media>
             </ul>
+            <Profile />
         </Col>
     );
 };

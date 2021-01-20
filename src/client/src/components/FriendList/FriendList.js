@@ -8,8 +8,6 @@ import AddFriend from '../AddFriend/AddFriend';
 import FriendListReducer from './FriendListReducer';
 import {useSwipeable} from 'react-swipeable';
 
-import './FriendList.scss';
-
 const FriendList = () => {
     const initState = {
         isOpen: false,
