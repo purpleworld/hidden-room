@@ -1,6 +1,6 @@
 import React, {Fragment} from 'react';
 import {Redirect, Switch, Route} from 'react-router-dom';
-import {Container, Row} from 'react-bootstrap';
+import {Row} from 'react-bootstrap';
 
 import PrivateRoute from '../CustomRoute/PrivateRoute';
 
