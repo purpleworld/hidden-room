@@ -1,5 +1,7 @@
 .chats {
     background-color: $secondary-color;
+    display: flex;
+    flex-direction: column;
 
     nav {
         background-color: $secondary-color;
@@ -21,5 +23,6 @@
 
     .chat-list {
         padding: 0 15px;
+        flex-grow: 1;
     }
 }

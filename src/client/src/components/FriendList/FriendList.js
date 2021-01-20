@@ -1,6 +1,5 @@
 import React, {useContext, useReducer, useEffect, Fragment} from 'react';
 import {Col, Navbar, Nav} from 'react-bootstrap';
-import 'holderjs';
 import Cookies from 'js-cookie';
 
 import Card from '../Card/Card';
