@@ -39,6 +39,21 @@ body {
     }
 }
 
+.btn-hidden-profile {
+    color: #fff;
+    border-radius: 12px;
+    padding: 5px 10px;
+
+    &:hover {
+        color: #fff;
+        background-color: rgba(#ffff, 0.1);
+    }
+
+    &:focus {
+        box-shadow: none;
+    }
+}
+
 label {
     color: #8e8e8e;
     font-size: 0.8rem;
