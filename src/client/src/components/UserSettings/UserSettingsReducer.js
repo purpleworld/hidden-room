@@ -5,6 +5,19 @@ const UserSettingsReducer = (state, action) => {
                 ...state,
                 detail: action.detail,
             };
+
+        case 'modify':
+            return {
+                ...state,
+                modify: action.modify,
+            };
+
+        case 'change': {
+            return {
+                ...state,
+                [action.field]: action.payload,
+            };
+        }
     }
 };
 

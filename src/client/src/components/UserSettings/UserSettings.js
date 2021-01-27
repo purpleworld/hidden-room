@@ -1,5 +1,5 @@
 import React, {useEffect, useReducer} from 'react';
-import {Modal, Button, Form, InputGroup} from 'react-bootstrap';
+import {Modal, Button, Form, InputGroup, Tooltip, OverlayTrigger} from 'react-bootstrap';
 import {BsPencil} from 'react-icons/bs';
 import Cookies from 'js-cookie';
 
@@ -8,7 +8,14 @@ import UserSettingsReducer from './UserSettingsReducer';
 const UserSettings = (props) => {
     const initState = {
         detail: false,
-        modify: false,
+        modify: {
+            username: true,
+            email: true,
+        },
+        username: '',
+        email: '',
+        currentPassword: '',
+        newPassword: '',
     };
 
     const [state, dispatch] = useReducer(UserSettingsReducer, initState);
@@ -30,6 +37,7 @@ const UserSettings = (props) => {
     useEffect(() => {
         getDetail();
     }, []);
+
     return (
         <Modal show={props.show} onHide={props.handleModal}>
             <Modal.Header closeButton>
@@ -41,34 +49,80 @@ const UserSettings = (props) => {
                     <Form.Group controlId="username">
                         <Form.Label>Usermame</Form.Label>
                         <InputGroup>
-                            <Form.Control type="text" defaultValue={state.detail.username} readOnly />
+                            <Form.Control
+                                type="text"
+                                defaultValue={state.detail.username}
+                                readOnly={state.modify.username}
+                                onChange={(e) =>
+                                    dispatch({type: 'change', field: 'username', payload: e.currentTarget.value})
+                                }
+                            />
                             <InputGroup.Append>
-                                <Button variant="hidden" type="submit">
-                                    <BsPencil />
-                                </Button>
+                                <OverlayTrigger placement="right" overlay={<Tooltip>Modify</Tooltip>}>
+                                    <Button
+                                        variant="hidden"
+                                        type="button"
+                                        onClick={() =>
+                                            dispatch({
+                                                type: 'modify',
+                                                modify: {username: false, email: state.modify.email},
+                                            })
+                                        }>
+                                        <BsPencil />
+                                    </Button>
+                                </OverlayTrigger>
                             </InputGroup.Append>
                         </InputGroup>
                     </Form.Group>
                     <Form.Group controlId="email">
                         <Form.Label>Email address</Form.Label>
                         <InputGroup>
-                            <Form.Control type="email" defaultValue={state.detail.email} readOnly />
+                            <Form.Control
+                                type="email"
+                                defaultValue={state.detail.email}
+                                readOnly={state.modify.email}
+                                onChange={(e) =>
+                                    dispatch({type: 'change', field: 'email', payload: e.currentTarget.value})
+                                }
+                            />
                             <InputGroup.Append>
-                                <Button variant="hidden" type="submit">
-                                    <BsPencil />
-                                </Button>
+                                <OverlayTrigger placement="right" overlay={<Tooltip>Modify</Tooltip>}>
+                                    <Button
+                                        variant="hidden"
+                                        type="button"
+                                        onClick={() =>
+                                            dispatch({
+                                                type: 'modify',
+                                                modify: {email: false, username: state.modify.username},
+                                            })
+                                        }>
+                                        <BsPencil />
+                                    </Button>
+                                </OverlayTrigger>
                             </InputGroup.Append>
                         </InputGroup>
                     </Form.Group>
 
                     <Form.Group controlId="password">
                         <Form.Label>Current Password</Form.Label>
-                        <Form.Control type="password" placeholder="Current password" />
+                        <Form.Control
+                            type="password"
+                            placeholder="Current password"
+                            onChange={(e) =>
+                                dispatch({type: 'change', field: 'currentPassword', payload: e.currentTarget.value})
+                            }
+                        />
                     </Form.Group>
 
                     <Form.Group controlId="new-password">
                         <Form.Label>New Password</Form.Label>
-                        <Form.Control type="password" placeholder="New password" />
+                        <Form.Control
+                            type="password"
+                            placeholder="New password"
+                            onChange={(e) =>
+                                dispatch({type: 'change', field: 'newPassword', payload: e.currentTarget.value})
+                            }
+                        />
                     </Form.Group>
                 </Form>
             </Modal.Body>
@@ -77,7 +131,10 @@ const UserSettings = (props) => {
                 <Button variant="hidden" onClick={props.handleModal}>
                     Close
                 </Button>
-                <Button variant="hidden" onClick={props.handleModal}>
+                <Button
+                    variant="hidden"
+                    onClick={props.handleModal}
+                    disabled={state.modify.username && state.modify.email ? true : false}>
                     Save changes
                 </Button>
             </Modal.Footer>
