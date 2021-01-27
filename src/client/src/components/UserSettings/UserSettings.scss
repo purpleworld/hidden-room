@@ -1,0 +1,13 @@
+.modal-content {
+    background-color: $bg-color;
+    border-color: $secondary-color;
+}
+
+.modal-header,
+.modal-footer {
+    border: none;
+}
+
+.form-control:read-only {
+    background-color: #0f1010;
+}
