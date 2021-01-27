@@ -11,9 +11,15 @@ from .models import Profile, Friend
 
 class AccountDetail(generics.RetrieveAPIView):
     queryset = User.objects.all()
-    serializer_class = AccountSerializer
+    serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [authentication.TokenAuthentication]
+
+    def retrieve(self, request, *args, **kwargs):
+        self.object = get_object_or_404(User, id=self.request.user.id)
+        serializer = self.get_serializer(self.object)
+        return response.Response(serializer.data)
+
 
 class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
