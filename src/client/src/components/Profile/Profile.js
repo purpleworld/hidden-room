@@ -1,4 +1,4 @@
-import React, {useContext, useReducer} from 'react';
+import React, {useContext, useReducer, useEffect} from 'react';
 import {Button, Tooltip, OverlayTrigger} from 'react-bootstrap';
 import {BsGearFill, BsArrowBarRight} from 'react-icons/bs';
 import Cookies from 'js-cookie';
@@ -30,6 +30,10 @@ const Profile = () => {
     };
 
     const [state, dispatch] = useReducer(ProfileReducer, initState);
+
+    useEffect(() => {
+        user.getUserDetail();
+    }, [state.modal]);
 
     return (
         <div className="user-profile">

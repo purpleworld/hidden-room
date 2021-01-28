@@ -14,8 +14,8 @@ const UserSettings = (props) => {
         },
         username: '',
         email: '',
-        currentPassword: '',
         newPassword: '',
+        confirmPassword: '',
     };
 
     const [state, dispatch] = useReducer(UserSettingsReducer, initState);
@@ -28,6 +28,36 @@ const UserSettings = (props) => {
         if (res.ok) {
             let response = await res.json();
             dispatch({type: 'detail', detail: response});
+        } else {
+            let error = await res.json();
+            console.log(error);
+        }
+    };
+
+    const onSubmit = async (e) => {
+        e.preventDefault();
+
+        const formdata = new FormData();
+        if (!state.modify.username && state.username !== state.detail.username && state.username) {
+            formdata.append('username', state.username);
+        }
+        if (!state.modify.email && state.email !== state.detail.email && state.email) {
+            formdata.append('email', state.email);
+        }
+
+        //formdata.append('password', state.newPassword);
+        //formdata.append('confirm_password', state.confirmNewPassword);
+
+        let res = await fetch(`${process.env.API_URL}/api/v1/account/me/update/${state.detail.id}/`, {
+            headers: {Authorization: `Token ${Cookies.get('auth_token')}`},
+            body: formdata,
+            method: 'PATCH',
+        });
+
+        if (res.ok) {
+            let response = await res.json();
+            console.log(response);
+            props.handleModal();
         } else {
             let error = await res.json();
             console.log(error);
@@ -56,6 +86,7 @@ const UserSettings = (props) => {
                                 onChange={(e) =>
                                     dispatch({type: 'change', field: 'username', payload: e.currentTarget.value})
                                 }
+                                required
                             />
                             <InputGroup.Append>
                                 <OverlayTrigger placement="right" overlay={<Tooltip>Modify</Tooltip>}>
@@ -84,6 +115,7 @@ const UserSettings = (props) => {
                                 onChange={(e) =>
                                     dispatch({type: 'change', field: 'email', payload: e.currentTarget.value})
                                 }
+                                required
                             />
                             <InputGroup.Append>
                                 <OverlayTrigger placement="right" overlay={<Tooltip>Modify</Tooltip>}>
@@ -107,20 +139,20 @@ const UserSettings = (props) => {
                         <Form.Label>Current Password</Form.Label>
                         <Form.Control
                             type="password"
-                            placeholder="Current password"
+                            placeholder="New password"
                             onChange={(e) =>
-                                dispatch({type: 'change', field: 'currentPassword', payload: e.currentTarget.value})
+                                dispatch({type: 'change', field: 'newPassword', payload: e.currentTarget.value})
                             }
                         />
                     </Form.Group>
 
-                    <Form.Group controlId="new-password">
+                    <Form.Group controlId="confirm_password">
                         <Form.Label>New Password</Form.Label>
                         <Form.Control
                             type="password"
-                            placeholder="New password"
+                            placeholder="Confirm new password"
                             onChange={(e) =>
-                                dispatch({type: 'change', field: 'newPassword', payload: e.currentTarget.value})
+                                dispatch({type: 'change', field: 'confirmPassword', payload: e.currentTarget.value})
                             }
                         />
                     </Form.Group>
@@ -133,7 +165,7 @@ const UserSettings = (props) => {
                 </Button>
                 <Button
                     variant="hidden"
-                    onClick={props.handleModal}
+                    onClick={onSubmit}
                     disabled={state.modify.username && state.modify.email ? true : false}>
                     Save changes
                 </Button>
