@@ -7,6 +7,7 @@ urlpatterns = [
     
     path('me/', views.ProfileViewSet.as_view({'get': 'retrieve'})),
     path('me/detail/', views.AccountDetail.as_view(), name="profile-detail"),
+    path('me/update/<int:pk>/', views.UpdateAccount.as_view()),
     
     path('friends/', views.FriendViewSet.as_view({'get': 'retrieve'})),
     path('friends/add/', views.FriendViewSet.as_view({'post': 'create'})),

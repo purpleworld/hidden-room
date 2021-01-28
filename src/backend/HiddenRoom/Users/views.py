@@ -96,6 +96,12 @@ class AccountCreate(generics.CreateAPIView):
     serializer_class = UserSerializer
     permission_classes = [permissions.AllowAny]
 
+class UpdateAccount(generics.UpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
 
 class GetToken(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
