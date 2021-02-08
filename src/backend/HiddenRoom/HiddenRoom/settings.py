@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
+    'channels',
 
     # Apps
     'Users.apps.UsersConfig',
@@ -77,6 +78,7 @@ TEMPLATES = [
     },
 ]
 
+ASGI_APPLICATION = 'HiddenRoom.asgi.application'
 WSGI_APPLICATION = 'HiddenRoom.wsgi.application'
 
 

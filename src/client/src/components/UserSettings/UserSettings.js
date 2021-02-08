@@ -55,8 +55,6 @@ const UserSettings = (props) => {
         });
 
         if (res.ok) {
-            let response = await res.json();
-            console.log(response);
             props.handleModal();
         } else {
             let error = await res.json();

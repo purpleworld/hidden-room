@@ -3,8 +3,6 @@ from django.contrib.auth.models import User
 from .models import Chatroom, ChatroomUser, PrivateChatroom, Message, PrivateMessage
 
 
-
-
 class ChatroomSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Chatroom
@@ -12,7 +10,7 @@ class ChatroomSerializer(serializers.HyperlinkedModelSerializer):
 
 class ChatroomUserSerializer(serializers.HyperlinkedModelSerializer):
     chatroom = serializers.HyperlinkedRelatedField(queryset=Chatroom.objects.all(), view_name='chatroom-detail')
-    user = serializers.HyperlinkedRelatedField(queryset=User.objects.all(), view_name='user-detail')
+    user = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='username')
 
     class Meta:
         model = ChatroomUser
@@ -30,7 +28,7 @@ class PrivateChatroomSerializer(serializers.HyperlinkedModelSerializer):
 
 class MessageSerializer(serializers.HyperlinkedModelSerializer):
     chatroom = serializers.HyperlinkedRelatedField(queryset=Chatroom.objects.all(), view_name='chatroom-detail')
-    user_id = serializers.HyperlinkedRelatedField(queryset=User.objects.all(), view_name='user-detail')
+    user_id = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='id')
     
     class Meta:
         model = Message
@@ -39,7 +37,7 @@ class MessageSerializer(serializers.HyperlinkedModelSerializer):
 
 class PrivateMessageSerializer(serializers.HyperlinkedModelSerializer):
     chatroom = serializers.HyperlinkedRelatedField(queryset=Chatroom.objects.all(), view_name='chatroom-detail')
-    user_id = serializers.HyperlinkedRelatedField(queryset=User.objects.all(), view_name='user-detail')
+    user_id = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='id')
     
     class Meta:
         model = PrivateMessage
