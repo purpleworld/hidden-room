@@ -11,5 +11,4 @@ urlpatterns = [
     re_path(r'^api/v1/auth/', GetToken.as_view()),
     re_path(r'^api/v1/account/', include('Users.urls')),
     re_path(r'^api/v1/chat/', include('Chat.urls')),
-    path('admin/', admin.site.urls),
 ]

@@ -30,6 +30,7 @@ class ProfileViewSet(viewsets.ModelViewSet):
     def retrieve(self, request, *args, **kwargs):
         self.object = get_object_or_404(Profile, user=self.request.user)
         return response.Response({
+            'id': self.object.user.id,
             'username': self.object.user.username,
             'avatar': self.object.avatar,
             'status': self.object.status,
@@ -62,33 +63,6 @@ class FriendViewSet(viewsets.ModelViewSet):
         queryset = Friend.objects.filter(user_id=self.request.user)
         serializer = FriendSerializer(queryset, many=True, context={'request': request})
         return response.Response(serializer.data)
-
-
-class UpdateFriendView(generics.UpdateAPIView):
-    queryset = Friend.objects.all()
-    serializer_class = FriendSerializer
-    authentication_classes = [authentication.TokenAuthentication]
-    permission_classes = [permissions.IsAuthenticated]
-    lookup_field = 'user2_id'
-
-    def get_object(self):
-        queryset = self.filter_queryset(self.get_queryset())
-
-        lookup_url_kwarg = self.lookup_url_kwarg or self.lookup_field
-
-        assert lookup_url_kwarg in self.kwargs, (
-            'Expected view %s to be called with a URL keyword argument '
-            'named "%s". Fix your URL conf, or set the `.lookup_field` '
-            'attribute on the view correctly.' %
-            (self.__class__.__name__, lookup_url_kwarg)
-        )
-
-        filter_kwargs = {self.lookup_field: self.kwargs[lookup_url_kwarg]}
-        obj = get_object_or_404(queryset, user_id=self.request.user.id, **filter_kwargs)
-
-        self.check_object_permissions(self.request, obj)
-
-        return obj
 
 
 class AccountCreate(generics.CreateAPIView):

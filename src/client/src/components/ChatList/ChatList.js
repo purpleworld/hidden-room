@@ -5,6 +5,12 @@ import 'holderjs';
 import Profile from '../Profile/Profile';
 
 const ChatList = () => {
+    const getChatrooms = () => {
+        return;
+    };
+    useEffect(() => {
+        getChatrooms();
+    }, []);
     return (
         <Col md="2" xs="9" className="chats h-100">
             <Navbar variant="dark" className="justify-content-between align-items-center">
