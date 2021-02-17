@@ -37,8 +37,8 @@ const App = () => {
             <Router>
                 <Switch>
                     <PublicRoute restricted="false" path="/login" component={Login} />
-                    <PublicRoute restricted="false" path="/register" component={Register}></PublicRoute>
-                    <PrivateRoute restricted="true" path="/" component={Main} />
+                    <PublicRoute restricted="false" path="/register" component={Register} />
+                    <PrivateRoute restricted="true" path="/app/:id(\d+|me)" component={Main} />
                 </Switch>
             </Router>
         </UserContext.Provider>

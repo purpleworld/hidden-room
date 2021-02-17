@@ -13,6 +13,5 @@ router.register(r'private-messages', views.PrivateMessageViewSet)
 
 
 urlpatterns = [
-    #re_path('^private-room/', views.PrivateChatroomViewSet.as_view({'get': 'retrieve'})),
     re_path('', include(router.urls)),
 ]
