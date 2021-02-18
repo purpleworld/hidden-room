@@ -18,7 +18,7 @@ const Card = (props) => {
     };
 
     const addFriend = async (props) => {
-        let formdata = new formdata();
+        let formdata = new FormData();
         formdata.append('user_id', props.friend.user_id);
         formdata.append('user2_id', props.friend.user2_id);
         formdata.append('relationship', 'FRIENDS');
@@ -26,7 +26,7 @@ const Card = (props) => {
         await fetch(`${process.env.API_URL}/api/v1/account/friends/${props.friend.id}/update/`, {
             method: 'PATCH',
             headers: {Authorization: `Token ${Cookies.get('auth_token')}`},
-            body: formData,
+            body: formdata,
         });
         props.getFriends();
     };
@@ -35,7 +35,7 @@ const Card = (props) => {
         if (props.friend.relationship == 'PENDING') {
             return (
                 <div>
-                    {props.friend.user_id === user.id ? (
+                    {props.friend.user_id != user.user.id ? (
                         <Button variant="hidden-option" onClick={() => addFriend(props)}>
                             <BsCheck size={20} />
                         </Button>

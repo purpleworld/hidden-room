@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, get_list_or_404
 from rest_framework import viewsets, generics, authentication, permissions, response, status
 from rest_framework.authtoken.views import ObtainAuthToken, APIView
@@ -60,7 +61,7 @@ class FriendViewSet(viewsets.ModelViewSet):
 
     
     def retrieve(self, request):
-        queryset = Friend.objects.filter(user_id=self.request.user)
+        queryset = Friend.objects.filter(Q(user_id=self.request.user) | Q(user2_id=self.request.user))
         serializer = FriendSerializer(queryset, many=True, context={'request': request})
         return response.Response(serializer.data)
 
