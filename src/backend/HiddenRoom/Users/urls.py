@@ -9,6 +9,7 @@ urlpatterns = [
     path('me/detail/', views.AccountDetail.as_view(), name="profile-detail"),
     path('me/update/<int:pk>/', views.UpdateAccount.as_view()),
     
+    path('friend/<int:pk>/detail/', views.FriendDetail.as_view()),
     path('friends/', views.FriendViewSet.as_view({'get': 'retrieve'})),
     path('friends/add/', views.FriendViewSet.as_view({'post': 'create'})),
     path('friends/<int:pk>/update/', views.FriendViewSet.as_view({'patch':'update'})),

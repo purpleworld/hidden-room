@@ -1,13 +1,35 @@
-import React, {useState, useContext} from 'react';
+import React, {useReducer, useContext, useEffect} from 'react';
 import {Media, Button, Figure} from 'react-bootstrap';
 import {BsX, BsCheck} from 'react-icons/bs';
 import Cookies from 'js-cookie';
 import 'holderjs';
 
 import UserContext from '../../contexts/UserContext';
+import CardReducer from './CardReducer';
 
 const Card = (props) => {
     const user = useContext(UserContext);
+    const initState = {
+        profile: null,
+    };
+
+    const [state, dispatch] = useReducer(CardReducer, initState);
+
+    const getProfile = async (props) => {
+        const id = props.friend.user_id == user.id ? props.friend.user_id : props.friend.user2_id;
+        const res = await fetch(`${process.env.API_URL}/api/v1/account/friend/${id}/detail/`, {
+            method: 'GET',
+            headers: {Authorization: `Token ${Cookies.get('auth_token')}`},
+        });
+
+        if (res.ok) {
+            let response = await res.json();
+            dispatch({type: 'profile', profile: response});
+        } else {
+            let error = await res.json();
+            console.log(error);
+        }
+    };
 
     const deleteFriend = async (props) => {
         await fetch(`${process.env.API_URL}/api/v1/account/friends/${props.friend.id}/`, {
@@ -51,11 +73,15 @@ const Card = (props) => {
         }
     };
 
+    useEffect(() => {
+        getProfile(props);
+    }, []);
+
     return (
         <Media as="li">
             <img width={36} height={36} className="mr-3" src="holder.js/36x36" />
             <Media.Body>
-                <h6>{props.friend.account.username}</h6>
+                <h6>{state.profile ? state.profile.username : null}</h6>
                 <div className="options">{options(props)}</div>
             </Media.Body>
         </Media>

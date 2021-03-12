@@ -22,6 +22,13 @@ class AccountDetail(generics.RetrieveAPIView):
         return response.Response(serializer.data)
 
 
+class FriendDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = AccountSerializer
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
+
 class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
