@@ -6,8 +6,10 @@ import 'holderjs';
 import Profile from '../Profile/Profile';
 
 import ChatListReducer from './ChatListReducer';
+import UserContext from '../../contexts/UserContext';
 
 const ChatList = () => {
+    const user = useContext(UserContext);
     const initState = {
         rooms: [],
     };
@@ -29,6 +31,17 @@ const ChatList = () => {
 
     const [state, dispatch] = useReducer(ChatListReducer, initState);
 
+    const rooms = state.rooms.map((room) => {
+        return (
+            <Media as="li" key={room.chatroom_id}>
+                <img width={36} height={36} className="mr-3" src="holder.js/36x36" alt="" />
+                <Media.Body>
+                    <h6>{user.user.username == room.user1 ? room.user2 : room.user1}</h6>
+                </Media.Body>
+            </Media>
+        );
+    });
+
     useEffect(() => {
         getChatrooms();
     }, []);
@@ -38,26 +51,7 @@ const ChatList = () => {
             <Navbar variant="dark" className="justify-content-between align-items-center">
                 <Navbar.Brand>Messages</Navbar.Brand>
             </Navbar>
-            <ul className="chat-list list-unstyled">
-                <Media as="li">
-                    <img width={36} height={36} className="mr-3" src="holder.js/36x36" alt="Generic placeholder" />
-                    <Media.Body>
-                        <h6>Placeholder</h6>
-                    </Media.Body>
-                </Media>
-                <Media as="li">
-                    <img width={36} height={36} className="mr-3" src="holder.js/36x36" alt="Generic placeholder" />
-                    <Media.Body>
-                        <h6>Placeholder</h6>
-                    </Media.Body>
-                </Media>
-                <Media as="li">
-                    <img width={36} height={36} className="mr-3" src="holder.js/36x36" alt="Generic placeholder" />
-                    <Media.Body>
-                        <h6>Placeholder</h6>
-                    </Media.Body>
-                </Media>
-            </ul>
+            <ul className="chat-list list-unstyled">{rooms}</ul>
             <Profile />
         </Col>
     );
