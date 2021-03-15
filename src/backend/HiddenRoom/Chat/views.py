@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from rest_framework import viewsets, authentication, response
@@ -21,14 +22,14 @@ class PrivateChatroomViewSet(viewsets.ModelViewSet):
     serializer_class = PrivateChatroomSerializer
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
-
-    def retrieve(self, request):
+    
+    def list(self, request):
         user2 = self.request.query_params.get('user2', None)
         
         if(user2 is not None):
-            queryset = PrivateChatroom.objects.filter(user1=self.request.user, user2=user2)
+            queryset = PrivateChatroom.objects.filter(Q(user1=self.request.user, user2=user2) | Q(user1=user2, user2=self.request.user))
         else:
-            queryset = PrivateChatroom.objects.filter(user1=self.request.user)
+            queryset = PrivateChatroom.objects.filter(Q(user1=self.request.user) | Q(user2=self.request.user))
   
         serializer = PrivateChatroomSerializer(queryset, many=True, context={'request': request})
         return response.Response(serializer.data)

@@ -31,7 +31,7 @@ class PrivateChatroom(models.Model):
             models.UniqueConstraint(fields=['user1', 'user2'], name='unique_private_chatroom') 
         ]
     def __str__(self):
-        return self.name
+        return f'{self.user1} & {self.user2}\'s Chatroom'
 
 
 class Message(models.Model):

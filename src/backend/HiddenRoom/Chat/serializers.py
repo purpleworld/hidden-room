@@ -8,6 +8,7 @@ class ChatroomSerializer(serializers.HyperlinkedModelSerializer):
         model = Chatroom
         fields = ['chatroom_id', 'name', 'creation_date']
 
+
 class ChatroomUserSerializer(serializers.HyperlinkedModelSerializer):
     chatroom = serializers.HyperlinkedRelatedField(queryset=Chatroom.objects.all(), view_name='chatroom-detail')
     user = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='username')
@@ -17,6 +18,7 @@ class ChatroomUserSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['chatroom', 'user', 'joined_date']
         extra_kwargs = {'joined_date': {'read_only': True}}
 
+
 class PrivateChatroomSerializer(serializers.HyperlinkedModelSerializer):
     user1 = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='username')
     user2 = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='username')
@@ -25,6 +27,7 @@ class PrivateChatroomSerializer(serializers.HyperlinkedModelSerializer):
         model = PrivateChatroom
         fields = ['chatroom_id', 'user1', 'user2', 'creation_date']
         extra_kwargs = {'creation_date': {'read_only': True}}
+        
 
 class MessageSerializer(serializers.HyperlinkedModelSerializer):
     chatroom = serializers.HyperlinkedRelatedField(queryset=Chatroom.objects.all(), view_name='chatroom-detail')
@@ -34,6 +37,7 @@ class MessageSerializer(serializers.HyperlinkedModelSerializer):
         model = Message
         fields = ['chatroom', 'message', 'user_id', 'content', 'created_at']
         extra_kwargs = {'created_at': {'read_only': True}, 'content': {'write_only': True}}
+
 
 class PrivateMessageSerializer(serializers.HyperlinkedModelSerializer):
     chatroom = serializers.HyperlinkedRelatedField(queryset=Chatroom.objects.all(), view_name='chatroom-detail')

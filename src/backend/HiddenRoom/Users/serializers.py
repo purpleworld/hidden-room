@@ -68,3 +68,15 @@ class FriendSerializer(serializers.ModelSerializer):
         obj.save()
         return obj
 
+    def update(self, instance, validated_data):
+        user = self.context['request'].user
+        print(instance.user2_id.id, user.pk)
+        if(user.pk != instance.user_id.id and user.pk != instance.user2_id.id):
+            raise serializers.ValidationError({"authorize": "You don't have permission for this."})
+
+        instance.relationship = validated_data.get('relationship', instance.relationship)
+
+        if(instance.relationship == 'FRIENDS'):
+            PrivateChatroom.objects.create(user1=instance.user_id, user2=instance.user2_id)
+        instance.save()
+        return instance
