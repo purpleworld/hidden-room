@@ -12,7 +12,7 @@ const Main = () => {
         <Fragment>
             <Row className="no-gutters h-100">
                 <ChatList />
-                {id == 'me' ? <FriendList /> : <Chat />}
+                {id == 'me' ? <FriendList /> : <Chat roomID={id} />}
             </Row>
         </Fragment>
     );

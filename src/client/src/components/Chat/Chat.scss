@@ -1,0 +1,12 @@
+.chat {
+    display:  flex;
+    flex-direction: column;
+
+    .messages {
+        flex-grow: 1;
+    }
+
+    .input-group {
+        width: auto;
+    }
+}
