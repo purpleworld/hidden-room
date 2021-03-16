@@ -1,5 +1,6 @@
-import React, {useContext, useState, useEffect, useReducer} from 'react';
+import React, {useContext, useState, useEffect, useReducer, useCallback} from 'react';
 import {Col, Media, Navbar} from 'react-bootstrap';
+import {useHistory} from 'react-router-dom';
 import Cookies from 'js-cookie';
 import 'holderjs';
 
@@ -13,6 +14,11 @@ const ChatList = () => {
     const initState = {
         rooms: [],
     };
+
+    const [state, dispatch] = useReducer(ChatListReducer, initState);
+
+    const history = useHistory();
+    const toRoom = useCallback((id) => history.push(`/app/room/${id}`), [history]);
 
     const getChatrooms = async () => {
         let res = await fetch(`${process.env.API_URL}/api/v1/chat/private-chatrooms/`, {
@@ -29,12 +35,9 @@ const ChatList = () => {
         }
     };
 
-    const [state, dispatch] = useReducer(ChatListReducer, initState);
-
     const rooms = state.rooms.map((room) => {
         return (
-            <Media as="li" key={room.chatroom_id}>
-                <img width={36} height={36} className="mr-3" src="holder.js/36x36" alt="" />
+            <Media as="li" key={room.chatroom_id} onClick={() => toRoom(room.chatroom_id)}>
                 <Media.Body>
                     <h6>{user.user.username == room.user1 ? room.user2 : room.user1}</h6>
                 </Media.Body>

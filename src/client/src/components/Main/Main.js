@@ -4,6 +4,7 @@ import {Row} from 'react-bootstrap';
 
 import ChatList from '../ChatList/ChatList';
 import FriendList from '../FriendList/FriendList';
+import Chat from '../Chat/Chat';
 
 const Main = () => {
     let {id} = useParams();
@@ -11,7 +12,7 @@ const Main = () => {
         <Fragment>
             <Row className="no-gutters h-100">
                 <ChatList />
-                {id == 'me' ? <FriendList /> : ''}
+                {id == 'me' ? <FriendList /> : <Chat />}
             </Row>
         </Fragment>
     );
