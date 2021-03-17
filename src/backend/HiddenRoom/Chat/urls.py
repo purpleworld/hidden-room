@@ -1,7 +1,7 @@
 from django.urls import path, re_path, include
 from rest_framework import routers
-from . import views
 
+from . import views, consumers
 
 router = routers.DefaultRouter()
 
