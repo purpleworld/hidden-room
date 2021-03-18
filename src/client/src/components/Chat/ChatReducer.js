@@ -5,6 +5,12 @@ const ChatReducer = (state, action) => {
                 ...state,
                 room: action.room,
             };
+
+        case 'message':
+            return {
+                ...state,
+                message: action.message,
+            };
     }
 };
 

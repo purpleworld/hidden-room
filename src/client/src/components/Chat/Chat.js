@@ -1,4 +1,4 @@
-import React, {useReducer, useEffect, useContext} from 'react';
+import React, {useReducer, useEffect, useContext, useRef} from 'react';
 import {Col, Navbar, Nav, InputGroup, Button, FormControl} from 'react-bootstrap';
 import {useParams} from 'react-router-dom';
 import Cookies from 'js-cookie';
@@ -7,15 +7,13 @@ import UserContext from '../../contexts/UserContext';
 import ChatReducer from './ChatReducer';
 
 const Chat = (props) => {
-    const ws = new WebSocket(`ws://127.0.0.1:8000/chat/${props.roomID}/?token=${Cookies.get('auth_token')}`);
-
-    ws.onclose = () => {
-        console.error('Chat socket closed unexpectedly');
-    };
+    let ws = useRef();
 
     const user = useContext(UserContext);
     const initState = {
         room: null,
+        message: '',
+        messages: [],
     };
 
     const [state, dispatch] = useReducer(ChatReducer, initState);
@@ -35,8 +33,28 @@ const Chat = (props) => {
         }
     };
 
+    const sendMessage = () => {
+        ws.current.send(
+            JSON.stringify({
+                message: state.message,
+            })
+        );
+        dispatch({type: 'message', message: ''});
+    };
+
     useEffect(() => {
         getChatrooms();
+        ws.current = new WebSocket(`ws://127.0.0.1:8000/chat/${props.roomID}/?token=${Cookies.get('auth_token')}`);
+        ws.current.onclose = () => {
+            console.log('closed');
+        };
+
+        ws.current.onmessage = (e) => {
+            console.log(e);
+        };
+        return () => {
+            ws.current.close();
+        };
     }, [props.roomID]);
 
     return (
@@ -48,9 +66,17 @@ const Chat = (props) => {
             </Navbar>
             <div className="messages px-3"></div>
             <InputGroup className="p-3">
-                <FormControl placeholder="Message" aria-label="Message" aria-describedby="message-input" />
+                <FormControl
+                    placeholder="Message"
+                    onChange={(e) => dispatch({type: 'message', field: 'message', message: e.currentTarget.value})}
+                    aria-label="Message"
+                    aria-describedby="message-input"
+                    value={state.message}
+                />
                 <InputGroup.Append>
-                    <Button variant="hidden">Send</Button>
+                    <Button variant="hidden" onClick={sendMessage}>
+                        Send
+                    </Button>
                 </InputGroup.Append>
             </InputGroup>
         </Col>

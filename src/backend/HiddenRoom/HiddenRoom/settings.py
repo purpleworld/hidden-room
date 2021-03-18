@@ -79,6 +79,11 @@ TEMPLATES = [
 ]
 
 ASGI_APPLICATION = 'HiddenRoom.asgi.application'
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
 WSGI_APPLICATION = 'HiddenRoom.wsgi.application'
 
 
