@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Chatroom, ChatroomUser, PrivateChatroom, Message, PrivateMessage
+from .models import Chatroom, ChatroomUser, PrivateChatroom, PrivateMessage
 
 
 class ChatroomSerializer(serializers.HyperlinkedModelSerializer):
@@ -27,16 +27,6 @@ class PrivateChatroomSerializer(serializers.HyperlinkedModelSerializer):
         model = PrivateChatroom
         fields = ['chatroom_id', 'user1', 'user2', 'creation_date']
         extra_kwargs = {'creation_date': {'read_only': True}}
-        
-
-class MessageSerializer(serializers.HyperlinkedModelSerializer):
-    chatroom = serializers.HyperlinkedRelatedField(queryset=Chatroom.objects.all(), view_name='chatroom-detail')
-    user_id = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='id')
-    
-    class Meta:
-        model = Message
-        fields = ['chatroom', 'message', 'user_id', 'content', 'created_at']
-        extra_kwargs = {'created_at': {'read_only': True}, 'content': {'write_only': True}}
 
 
 class PrivateMessageSerializer(serializers.HyperlinkedModelSerializer):
@@ -45,5 +35,5 @@ class PrivateMessageSerializer(serializers.HyperlinkedModelSerializer):
     
     class Meta:
         model = PrivateMessage
-        fields = ['chatroom', 'message', 'user_id', 'content', 'created_at']
+        fields = ['id' 'chatroom', 'user_id', 'message', 'created_at']
         extra_kwargs = {'created_at': {'read_only': True}, 'content': {'write_only': True}}

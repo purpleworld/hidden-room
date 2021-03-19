@@ -34,16 +34,9 @@ class PrivateChatroom(models.Model):
         return f'{self.user1} & {self.user2}\'s Chatroom'
 
 
-class Message(models.Model):
-    chatroom = models.ForeignKey(Chatroom, on_delete=models.CASCADE)
-    message = models.BigIntegerField(unique=True)
-    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False)
-    content = models.TextField()
-    created_at = models.DateTimeField(auto_now=True)
-
 class PrivateMessage(models.Model):
+    id = models.BigAutoField(primary_key=True)
     chatroom = models.ForeignKey(PrivateChatroom, on_delete=models.CASCADE)
-    message = models.BigIntegerField(unique=True)
     user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False)
-    content = models.TextField()
+    message = models.TextField()
     created_at = models.DateTimeField(auto_now=True)
