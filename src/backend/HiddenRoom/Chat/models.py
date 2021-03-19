@@ -39,4 +39,4 @@ class PrivateMessage(models.Model):
     chatroom = models.ForeignKey(PrivateChatroom, on_delete=models.CASCADE)
     user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False)
     message = models.TextField()
-    created_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField()

@@ -4,14 +4,14 @@ import Cookies from 'js-cookie';
 
 const Message = (props) => {
     return (
-        <Card>
+        <Card className="h6">
             <Card.Body>
                 <Card.Title>
-                    <span>{props.username}</span>
-                    <span>{props.date}</span>
+                    <span>{props.message.username}</span>
+                    <span>{props.message.date}</span>
                 </Card.Title>
             </Card.Body>
-            <Card.Text>{props.message}</Card.Text>
+            <Card.Text>{props.message.message}</Card.Text>
         </Card>
     );
 };

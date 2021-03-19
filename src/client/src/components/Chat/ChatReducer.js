@@ -11,6 +11,12 @@ const ChatReducer = (state, action) => {
                 ...state,
                 message: action.message,
             };
+
+        case 'messages':
+            return {
+                ...state,
+                messages: [...state.messages, action.messages],
+            };
     }
 };
 

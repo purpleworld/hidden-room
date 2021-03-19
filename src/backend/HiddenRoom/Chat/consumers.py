@@ -1,5 +1,10 @@
 import json
+import datetime
+from django.shortcuts import render, get_object_or_404, get_list_or_404
 from channels.generic.websocket import AsyncWebsocketConsumer
+from channels.db import database_sync_to_async
+
+from .models import PrivateMessage, PrivateChatroom
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -21,18 +26,30 @@ class ChatConsumer(AsyncWebsocketConsumer):
         )
         
     async def receive(self, text_data):
-        text_data_json = json.loads(text_data)
-        message = text_data_json['message']
+        data = json.loads(text_data)
+        message = data['message']
+        date = data['date']
 
+        await self.save_message(data)
         await self.channel_layer.group_send(self.room_group_name, {'type': 'chat_message',
                                                                    'username': self.scope['user'].username ,
-                                                                   'message': message})
+                                                                   'message': message,
+                                                                   'date': date
+                                                                   })
 
     async def chat_message(self, event):
         username = event['username']
         message = event['message']
+        date = event['date']
 
         await self.send(text_data=json.dumps({
             'username': username,
-            'message': message
+            'message': message,
+            'date': date
         }))
+
+    @database_sync_to_async
+    def save_message(self, data):
+        date = datetime.datetime.fromtimestamp(data['date'])
+        room = PrivateChatroom.objects.get(chatroom_id=int(self.room_id))
+        message = PrivateMessage.objects.create(chatroom=room, message=data['message'], user_id=self.scope['user'], created_at=date)

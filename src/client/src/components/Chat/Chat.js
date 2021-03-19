@@ -3,6 +3,8 @@ import {Col, Navbar, Nav, InputGroup, Button, FormControl} from 'react-bootstrap
 import {useParams} from 'react-router-dom';
 import Cookies from 'js-cookie';
 
+import Message from '../Message/Message';
+
 import UserContext from '../../contexts/UserContext';
 import ChatReducer from './ChatReducer';
 
@@ -34,9 +36,11 @@ const Chat = (props) => {
     };
 
     const sendMessage = () => {
+        const date = Date.now() / 1000;
         ws.current.send(
             JSON.stringify({
                 message: state.message,
+                date: date,
             })
         );
         dispatch({type: 'message', message: ''});
@@ -50,12 +54,16 @@ const Chat = (props) => {
         };
 
         ws.current.onmessage = (e) => {
-            console.log(e);
+            dispatch({type: 'messages', messages: JSON.parse(e.data)});
         };
         return () => {
             ws.current.close();
         };
     }, [props.roomID]);
+
+    const m = state.messages.map((message, i) => {
+        return <Message key={i} message={message} />;
+    });
 
     return (
         <Col md="10" xs="12" className="chat h-100 bg-dark">
@@ -64,7 +72,7 @@ const Chat = (props) => {
                     {state.room ? (user.user.username == state.room.user1 ? state.room.user2 : state.room.user1) : ''}
                 </Navbar.Brand>
             </Navbar>
-            <div className="messages px-3"></div>
+            <div className="messages px-3">{m}</div>
             <InputGroup className="p-3">
                 <FormControl
                     placeholder="Message"
