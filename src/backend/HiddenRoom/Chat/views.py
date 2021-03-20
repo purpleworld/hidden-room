@@ -1,8 +1,11 @@
 from django.db.models import Q
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from rest_framework import viewsets, authentication, response
+
+from rest_framework import viewsets, authentication, response, generics
 from rest_framework import permissions
+from rest_framework.pagination import LimitOffsetPagination
+
 from .serializers import ChatroomSerializer, ChatroomUserSerializer, PrivateChatroomSerializer, PrivateMessageSerializer
 from .models import Chatroom, ChatroomUser, PrivateChatroom, PrivateMessage
 
@@ -35,7 +38,12 @@ class PrivateChatroomViewSet(viewsets.ModelViewSet):
         return response.Response(serializer.data)
 
 
-class PrivateMessageViewSet(viewsets.ModelViewSet):
-    queryset = PrivateMessage.objects.all()
+class PrivateMessageList(generics.ListAPIView):
     serializer_class = PrivateMessageSerializer
+    pagination_class = LimitOffsetPagination
+    authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        queryset = PrivateMessage.objects.filter(chatroom=self.kwargs['room_id'])
+        return queryset

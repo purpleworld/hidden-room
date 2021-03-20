@@ -37,6 +37,6 @@ class PrivateChatroom(models.Model):
 class PrivateMessage(models.Model):
     id = models.BigAutoField(primary_key=True)
     chatroom = models.ForeignKey(PrivateChatroom, on_delete=models.CASCADE)
-    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False)
     message = models.TextField()
     created_at = models.DateTimeField()

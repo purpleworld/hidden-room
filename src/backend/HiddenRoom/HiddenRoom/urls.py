@@ -3,7 +3,7 @@ from django.urls import include, path, re_path
 from rest_framework.authtoken import views
 
 from Users.views import ProfileViewSet, FriendViewSet, GetToken
-from Chat.views import ChatroomViewSet, ChatroomUserViewSet, PrivateChatroomViewSet, PrivateMessageViewSet
+
 
 
 urlpatterns = [

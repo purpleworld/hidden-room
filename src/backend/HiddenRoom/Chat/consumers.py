@@ -28,28 +28,29 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data):
         data = json.loads(text_data)
         message = data['message']
-        date = data['date']
+        created_at = data['created_at']
 
         await self.save_message(data)
         await self.channel_layer.group_send(self.room_group_name, {'type': 'chat_message',
-                                                                   'username': self.scope['user'].username ,
+                                                                   'user': self.scope['user'].user ,
                                                                    'message': message,
-                                                                   'date': date
+                                                                   'created_at': created_at
                                                                    })
 
     async def chat_message(self, event):
-        username = event['username']
+        user = event['user']
         message = event['message']
-        date = event['date']
+        created_at = event['created_at']
 
         await self.send(text_data=json.dumps({
-            'username': username,
+            'user': user,
             'message': message,
-            'date': date
+            'created_at': created_at
         }))
 
     @database_sync_to_async
     def save_message(self, data):
-        date = datetime.datetime.fromtimestamp(data['date'])
+        created_at = datetime.datetime.fromtimestamp(data['created_at'])
         room = PrivateChatroom.objects.get(chatroom_id=int(self.room_id))
-        message = PrivateMessage.objects.create(chatroom=room, message=data['message'], user_id=self.scope['user'], created_at=date)
+        message = PrivateMessage.objects.create(chatroom=room, message=data['message'], user=self.scope['user'], created_at=created_at)
+        print(message)

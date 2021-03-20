@@ -20,6 +20,18 @@ const Chat = (props) => {
 
     const [state, dispatch] = useReducer(ChatReducer, initState);
 
+    const getOldMessages = async () => {
+        let res = await fetch(`${process.env.API_URL}/api/v1/chat/room/${props.roomID}/messages/`, {
+            method: 'GET',
+            headers: {Authorization: `Token ${Cookies.get('auth_token')}`},
+        });
+
+        if (res.ok) {
+            let response = await res.json();
+            dispatch({type: 'messages', messages: response.results});
+        }
+    };
+
     const getChatrooms = async () => {
         let res = await fetch(`${process.env.API_URL}/api/v1/chat/private-chatrooms/${props.roomID}/`, {
             method: 'GET',
@@ -40,7 +52,7 @@ const Chat = (props) => {
         ws.current.send(
             JSON.stringify({
                 message: state.message,
-                date: date,
+                created_at: date,
             })
         );
         dispatch({type: 'message', message: ''});
@@ -48,6 +60,7 @@ const Chat = (props) => {
 
     useEffect(() => {
         getChatrooms();
+        getOldMessages();
         ws.current = new WebSocket(`ws://127.0.0.1:8000/chat/${props.roomID}/?token=${Cookies.get('auth_token')}`);
         ws.current.onclose = () => {
             console.log('closed');

@@ -31,9 +31,9 @@ class PrivateChatroomSerializer(serializers.HyperlinkedModelSerializer):
 
 class PrivateMessageSerializer(serializers.HyperlinkedModelSerializer):
     chatroom = serializers.HyperlinkedRelatedField(queryset=Chatroom.objects.all(), view_name='chatroom-detail')
-    user_id = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='id')
+    user = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='username')
     
     class Meta:
         model = PrivateMessage
-        fields = ['id' 'chatroom', 'user_id', 'message', 'created_at']
-        extra_kwargs = {'created_at': {'read_only': True}, 'content': {'write_only': True}}
+        fields = ['id', 'chatroom', 'user', 'message', 'created_at']
+        extra_kwargs = {'content': {'write_only': True}}
