@@ -15,7 +15,7 @@ const ChatReducer = (state, action) => {
         case 'messages':
             return {
                 ...state,
-                messages: state.messages.concat(action.messages),
+                messages: action.messages,
             };
     }
 };

@@ -32,7 +32,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         await self.save_message(data)
         await self.channel_layer.group_send(self.room_group_name, {'type': 'chat_message',
-                                                                   'user': self.scope['user'].user ,
+                                                                   'user': self.scope['user'].username,
                                                                    'message': message,
                                                                    'created_at': created_at
                                                                    })
@@ -53,4 +53,3 @@ class ChatConsumer(AsyncWebsocketConsumer):
         created_at = datetime.datetime.fromtimestamp(data['created_at'])
         room = PrivateChatroom.objects.get(chatroom_id=int(self.room_id))
         message = PrivateMessage.objects.create(chatroom=room, message=data['message'], user=self.scope['user'], created_at=created_at)
-        print(message)

@@ -1,8 +1,28 @@
 .card {
     background-color: transparent;
     border: none;
+    padding: 12px 16px;
 
     .card-body {
         padding: 0;
     }
+
+    .card-title {
+        .user {
+            margin-right: 6px;
+
+            .me {
+                color: $base-color;
+            }
+        }
+
+        .date {
+            font-size: 12px;
+            color: #909398;
+        }
+    }
+}
+
+.message.card:hover {
+    background-color: #282d31;
 }

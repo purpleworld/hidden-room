@@ -1,6 +1,5 @@
 import React, {useReducer, useEffect, useContext, useRef} from 'react';
 import {Col, Navbar, Nav, InputGroup, Button, FormControl} from 'react-bootstrap';
-import {useParams} from 'react-router-dom';
 import Cookies from 'js-cookie';
 
 import Message from '../Message/Message';
@@ -28,7 +27,7 @@ const Chat = (props) => {
 
         if (res.ok) {
             let response = await res.json();
-            dispatch({type: 'messages', messages: response.results});
+            dispatch({type: 'messages', messages: response.results.reverse()});
         }
     };
 
@@ -66,13 +65,20 @@ const Chat = (props) => {
             console.log('closed');
         };
 
-        ws.current.onmessage = (e) => {
-            dispatch({type: 'messages', messages: JSON.parse(e.data)});
-        };
         return () => {
             ws.current.close();
+            dispatch({type: 'messages', messages: []});
         };
     }, [props.roomID]);
+
+    useEffect(() => {
+        if (!ws.current) {
+            return;
+        }
+        ws.current.onmessage = (e) => {
+            dispatch({type: 'messages', messages: [...state.messages, JSON.parse(e.data)]});
+        };
+    }, [state.messages]);
 
     const m = state.messages.map((message, i) => {
         return <Message key={i} message={message} />;
@@ -85,7 +91,7 @@ const Chat = (props) => {
                     {state.room ? (user.user.username == state.room.user1 ? state.room.user2 : state.room.user1) : ''}
                 </Navbar.Brand>
             </Navbar>
-            <div className="messages px-3">{m}</div>
+            <div className="messages">{m}</div>
             <InputGroup className="p-3">
                 <FormControl
                     placeholder="Message"

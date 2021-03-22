@@ -45,5 +45,5 @@ class PrivateMessageList(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        queryset = PrivateMessage.objects.filter(chatroom=self.kwargs['room_id'])
+        queryset = PrivateMessage.objects.filter(chatroom=self.kwargs['room_id']).order_by('id').reverse()
         return queryset
