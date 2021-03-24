@@ -9,6 +9,7 @@ import ChatReducer from './ChatReducer';
 
 const Chat = (props) => {
     let ws = useRef();
+    let messagesDiv = useRef();
 
     const user = useContext(UserContext);
     const initState = {
@@ -16,7 +17,6 @@ const Chat = (props) => {
         message: '',
         messages: [],
         next: null,
-        scroll: 0,
     };
 
     const [state, dispatch] = useReducer(ChatReducer, initState);
@@ -57,6 +57,16 @@ const Chat = (props) => {
         dispatch({type: 'message', message: ''});
     };
 
+    const scrollEvent = () => {
+        if (messagesDiv.current.scrollTop <= 0) {
+            getOldMessages(state.next).then((res) => {
+                dispatch({type: 'messages', messages: [...res.results.reverse(), ...state.messages]});
+                dispatch({type: 'next', next: res.next});
+                document.querySelectorAll('.message')[20].scrollIntoView();
+            });
+        }
+    };
+
     const msg = state.messages.map((message, i) => {
         return <Message key={i} message={message} />;
     });
@@ -82,12 +92,20 @@ const Chat = (props) => {
             return;
         }
 
-        dispatch({type: 'scroll', scroll: document.querySelector('.messages').scrollHeight});
-
         ws.current.onmessage = (e) => {
             dispatch({type: 'messages', messages: [...state.messages, JSON.parse(e.data)]});
         };
     }, [state.messages]);
+
+    useEffect(() => {
+        if (state.next != null) {
+            messagesDiv.current.addEventListener('scroll', scrollEvent);
+        }
+
+        return () => {
+            messagesDiv.current.removeEventListener('scroll', scrollEvent);
+        };
+    });
 
     return (
         <Col md="10" xs="12" className="chat h-100 bg-dark">
@@ -96,7 +114,9 @@ const Chat = (props) => {
                     {state.room ? (user.user.username == state.room.user1 ? state.room.user2 : state.room.user1) : ''}
                 </Navbar.Brand>
             </Navbar>
-            <div className="messages">{msg}</div>
+            <div className="messages" ref={messagesDiv}>
+                {msg}
+            </div>
             <InputGroup className="p-3">
                 <FormControl
                     placeholder="Message"

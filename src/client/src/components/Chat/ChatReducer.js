@@ -18,12 +18,6 @@ const ChatReducer = (state, action) => {
                 messages: action.messages,
             };
 
-        case 'scroll':
-            return {
-                ...state,
-                scroll: action.scroll,
-            };
-
         case 'next':
             return {
                 ...state,
