@@ -28,7 +28,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data):
         data = json.loads(text_data)
         message = data['message']
-        created_at = data['created_at']
+        created_at = str(datetime.datetime.fromtimestamp(data['created_at']))
 
         await self.save_message(data)
         await self.channel_layer.group_send(self.room_group_name, {'type': 'chat_message',
