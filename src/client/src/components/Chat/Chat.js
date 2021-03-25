@@ -110,7 +110,7 @@ const Chat = (props) => {
     return (
         <Col md="10" xs="12" className="chat h-100 bg-dark">
             <Navbar bg="dark" variant="dark" className="justify-content-between align-items-center">
-                <Navbar.Brand className="d-none d-sm-block">
+                <Navbar.Brand className="d-sm-block">
                     {state.room ? (user.user.username == state.room.user1 ? state.room.user2 : state.room.user1) : ''}
                 </Navbar.Brand>
             </Navbar>

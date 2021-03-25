@@ -1,7 +1,11 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Card} from 'react-bootstrap';
 
+import UserContext from '../../contexts/UserContext';
+
 const Message = (props) => {
+    const user = useContext(UserContext);
+
     const isToday = () => {
         const date = new Date(props.message.created_at);
         const today = new Date();
@@ -22,7 +26,9 @@ const Message = (props) => {
         <Card className="message">
             <Card.Body>
                 <Card.Title className="h6">
-                    <span className="user">{props.message.user}</span>
+                    <span className={'user ' + (user.user.username == props.message.user ? 'me' : '')}>
+                        {props.message.user}
+                    </span>
                     <span className="date">{isToday()}</span>
                 </Card.Title>
             </Card.Body>

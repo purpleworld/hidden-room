@@ -54,7 +54,14 @@ const ChatList = () => {
             <Navbar variant="dark" className="justify-content-between align-items-center">
                 <Navbar.Brand>Messages</Navbar.Brand>
             </Navbar>
-            <ul className="chat-list list-unstyled">{rooms}</ul>
+            <ul className="chat-list list-unstyled">
+                <Media as="li" onClick={() => toRoom('me')}>
+                    <Media.Body>
+                        <h6>Friends</h6>
+                    </Media.Body>
+                </Media>
+                {rooms}
+            </ul>
             <Profile />
         </Col>
     );

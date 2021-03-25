@@ -11,3 +11,10 @@
         width: auto;
     }
 }
+
+@media (max-width: 425px) {
+    .chat {
+        position: fixed !important;
+        transition: 0.3s;
+    }
+}
