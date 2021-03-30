@@ -2,24 +2,6 @@ from django.db import models
 from django.conf import settings
 
 
-class Chatroom(models.Model):
-    chatroom_id = models.BigAutoField(primary_key=True, unique=True)
-    name = models.CharField(max_length=50, null=True)
-    creation_date = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.name
-
-class ChatroomUser(models.Model):
-    chatroom = models.ForeignKey(Chatroom, on_delete=models.CASCADE)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False)
-    joined_date = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['chatroom', 'user'], name='unique_user_chatroom') 
-        ]
-
 class PrivateChatroom(models.Model):
     chatroom_id = models.BigAutoField(primary_key=True, unique=True)
     user1 = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user1', null=False)

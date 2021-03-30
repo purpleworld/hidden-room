@@ -6,19 +6,9 @@ from rest_framework import viewsets, authentication, response, generics
 from rest_framework import permissions
 from rest_framework.pagination import LimitOffsetPagination
 
-from .serializers import ChatroomSerializer, ChatroomUserSerializer, PrivateChatroomSerializer, PrivateMessageSerializer
-from .models import Chatroom, ChatroomUser, PrivateChatroom, PrivateMessage
+from .serializers import PrivateChatroomSerializer, PrivateMessageSerializer
+from .models import PrivateChatroom, PrivateMessage
 
-
-class ChatroomViewSet(viewsets.ModelViewSet):
-    queryset = Chatroom.objects.all()
-    serializer_class = ChatroomSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-class ChatroomUserViewSet(viewsets.ModelViewSet):
-    queryset = ChatroomUser.objects.all()
-    serializer_class = ChatroomUserSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
 class PrivateChatroomViewSet(viewsets.ModelViewSet):
     queryset = PrivateChatroom.objects.all()

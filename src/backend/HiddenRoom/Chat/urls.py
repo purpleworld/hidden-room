@@ -5,8 +5,6 @@ from . import views, consumers
 
 router = routers.DefaultRouter()
 
-router.register(r'chatrooms',views.ChatroomViewSet)
-router.register(r'chatroom-users', views.ChatroomUserViewSet)
 router.register(r'private-chatrooms', views.PrivateChatroomViewSet)
 
 
