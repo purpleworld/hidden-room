@@ -14,7 +14,7 @@ class PrivateChatroomSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class PrivateMessageSerializer(serializers.HyperlinkedModelSerializer):
-    chatroom = serializers.HyperlinkedRelatedField(queryset=PrivateChatroom.objects.all(), view_name='chatroom-detail')
+    chatroom = serializers.HyperlinkedRelatedField(queryset=PrivateChatroom.objects.all(), view_name='privatechatroom-detail')
     user = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='username')
     
     class Meta:

@@ -1,15 +1,11 @@
 const FriendListReducer = (state, action) => {
     switch (action.type) {
-        case 'open':
+        case 'isOpen':
             return {
                 ...state,
-                isOpen: true,
+                isOpen: state.isOpen ? false : true,
             };
-        case 'close':
-            return {
-                ...state,
-                isOpen: false,
-            };
+
         case 'get_friend':
             return {
                 ...state,

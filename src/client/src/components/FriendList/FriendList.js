@@ -21,14 +21,6 @@ const FriendList = () => {
         getFriends();
     };
 
-    const handleNavbar = () => {
-        if (state.isOpen) {
-            dispatch({type: 'close'});
-        } else {
-            dispatch({type: 'open'});
-        }
-    };
-
     const getFriends = async () => {
         let res = await fetch(`${process.env.API_URL}/api/v1/account/friends/`, {
             headers: {Authorization: `Token ${Cookies.get('auth_token')}`},
@@ -56,7 +48,7 @@ const FriendList = () => {
 
     const handlers = useSwipeable({
         onSwipedLeft: () => {
-            dispatch({type: 'close'});
+            dispatch({type: 'isOpen'});
         },
     });
 
@@ -78,7 +70,7 @@ const FriendList = () => {
                         <Nav.Link eventKey="add_friend">Add Friend</Nav.Link>
                     </Nav.Item>
                 </Nav>
-                <div className="mobile-menu d-block d-sm-none" onClick={handleNavbar}>
+                <div className="mobile-menu d-block d-sm-none" onClick={() => dispatch({type: 'isOpen'})}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path
                             strokeLinecap="round"

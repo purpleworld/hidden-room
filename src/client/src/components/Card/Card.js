@@ -79,7 +79,6 @@ const Card = (props) => {
 
     return (
         <Media as="li">
-            <img width={36} height={36} className="mr-3" src="holder.js/36x36" alt="" />
             <Media.Body>
                 <h6>{state.profile ? state.profile.username : null}</h6>
                 <div className="options">{options(props)}</div>

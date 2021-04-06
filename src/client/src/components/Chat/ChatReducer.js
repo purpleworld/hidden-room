@@ -23,6 +23,12 @@ const ChatReducer = (state, action) => {
                 ...state,
                 next: action.next,
             };
+
+        case 'isOpen':
+            return {
+                ...state,
+                isOpen: state.isOpen ? false : true,
+            };
     }
 };
 

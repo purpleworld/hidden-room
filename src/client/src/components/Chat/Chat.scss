@@ -17,4 +17,7 @@
         position: fixed !important;
         transition: 0.3s;
     }
+    .chat.open {
+        transform: translateX(75%);
+    }
 }

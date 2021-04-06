@@ -1,5 +1,6 @@
 import React, {useReducer, useEffect, useContext, useRef} from 'react';
 import {Col, Navbar, Nav, InputGroup, Button, FormControl} from 'react-bootstrap';
+import {useSwipeable} from 'react-swipeable';
 import Cookies from 'js-cookie';
 
 import Message from '../Message/Message';
@@ -17,6 +18,7 @@ const Chat = (props) => {
         message: '',
         messages: [],
         next: null,
+        isOpen: false,
     };
 
     const [state, dispatch] = useReducer(ChatReducer, initState);
@@ -58,7 +60,8 @@ const Chat = (props) => {
     };
 
     const scrollEvent = () => {
-        if (messagesDiv.current.scrollTop <= 0) {
+        if (messagesDiv.current.scrollTop <= 0 && state.next != null) {
+            console.log(messagesDiv.current.scrollTop);
             getOldMessages(state.next).then((res) => {
                 dispatch({type: 'messages', messages: [...res.results.reverse(), ...state.messages]});
                 dispatch({type: 'next', next: res.next});
@@ -69,6 +72,12 @@ const Chat = (props) => {
 
     const msg = state.messages.map((message, i) => {
         return <Message key={i} message={message} />;
+    });
+
+    const handlers = useSwipeable({
+        onSwipedLeft: () => {
+            dispatch({type: 'isOpen'});
+        },
     });
 
     useEffect(() => {
@@ -83,6 +92,7 @@ const Chat = (props) => {
 
         return () => {
             ws.current.close();
+            dispatch({type: 'next', next: null});
             dispatch({type: 'messages', messages: []});
         };
     }, [props.roomID]);
@@ -97,24 +107,24 @@ const Chat = (props) => {
         };
     }, [state.messages]);
 
-    useEffect(() => {
-        if (state.next != null) {
-            messagesDiv.current.addEventListener('scroll', scrollEvent);
-        }
-
-        return () => {
-            messagesDiv.current.removeEventListener('scroll', scrollEvent);
-        };
-    });
-
     return (
-        <Col md="10" xs="12" className="chat h-100 bg-dark">
+        <Col md="10" xs="12" className={`chat h-100 bg-dark ${state.isOpen ? 'open' : ''}`} {...handlers}>
             <Navbar bg="dark" variant="dark" className="justify-content-between align-items-center">
                 <Navbar.Brand className="d-sm-block">
                     {state.room ? (user.user.username == state.room.user1 ? state.room.user2 : state.room.user1) : ''}
                 </Navbar.Brand>
+                <div className="mobile-menu d-block d-sm-none" onClick={() => dispatch({type: 'isOpen'})}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M4 6h16M4 12h16M4 18h16"
+                        />
+                    </svg>
+                </div>
             </Navbar>
-            <div className="messages" ref={messagesDiv}>
+            <div className="messages" ref={messagesDiv} onScroll={scrollEvent}>
                 {msg}
             </div>
             <InputGroup className="p-3">
