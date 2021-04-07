@@ -3,7 +3,7 @@
         position: fixed !important;
         transition: 0.3s;
 
-        Nav {
+        nav {
             height: 57px;
         }
     }
@@ -15,4 +15,14 @@
 
 .friends-list {
     padding: 6px 18px !important;
+}
+
+nav {
+    .nav-link {
+        padding: 5px;
+    }
+
+    a.nav-link.active {
+        background-color: $base-color !important;
+    }
 }

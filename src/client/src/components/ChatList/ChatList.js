@@ -1,5 +1,6 @@
 import React, {useContext, useState, useEffect, useReducer, useCallback} from 'react';
 import {Col, Media, Navbar} from 'react-bootstrap';
+import {BsFillPersonFill} from 'react-icons/bs';
 import {useHistory} from 'react-router-dom';
 import Cookies from 'js-cookie';
 import 'holderjs';
@@ -57,6 +58,7 @@ const ChatList = () => {
             <ul className="chat-list list-unstyled">
                 <Media as="li" onClick={() => toRoom('me')}>
                     <Media.Body>
+                        <BsFillPersonFill size={20} />
                         <h6>Friends</h6>
                     </Media.Body>
                 </Media>

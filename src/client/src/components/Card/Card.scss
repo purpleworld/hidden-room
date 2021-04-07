@@ -1,18 +1,20 @@
 .media {
     align-items: center;
-    padding: 6px 6px;
+    padding: 12px 12px;
+    border-radius: 8px;
 
-    img {
-        border-radius: 25px;
+    h6 {
+        margin: 0;
     }
 }
 
 .media:hover {
     cursor: pointer;
-    background-color: #3b4148;
+    background-color: $secondary-bg-color;
 }
 
 .media-body {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }

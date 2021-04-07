@@ -16,6 +16,14 @@
         align-items: center !important;
         margin-top: 8px;
 
+        .media-body {
+            justify-content: left;
+
+            svg {
+                margin-right: 8px;
+            }
+        }
+
         img {
             border-radius: 25px;
         }

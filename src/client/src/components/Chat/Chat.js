@@ -61,7 +61,6 @@ const Chat = (props) => {
 
     const scrollEvent = () => {
         if (messagesDiv.current.scrollTop <= 0 && state.next != null) {
-            console.log(messagesDiv.current.scrollTop);
             getOldMessages(state.next).then((res) => {
                 dispatch({type: 'messages', messages: [...res.results.reverse(), ...state.messages]});
                 dispatch({type: 'next', next: res.next});
