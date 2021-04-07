@@ -1,5 +1,6 @@
 import React, {useContext} from 'react';
 import {Card} from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
 import UserContext from '../../contexts/UserContext';
 
@@ -35,6 +36,16 @@ const Message = (props) => {
             <Card.Text>{props.message.message}</Card.Text>
         </Card>
     );
+};
+
+Message.propTypes = {
+    message: PropTypes.shape({
+        id: PropTypes.number,
+        chatroom: PropTypes.string,
+        user: PropTypes.string,
+        message: PropTypes.string,
+        created_at: PropTypes.string,
+    }),
 };
 
 export default Message;

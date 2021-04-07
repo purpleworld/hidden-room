@@ -1,6 +1,7 @@
 import React, {useEffect, useReducer} from 'react';
 import {Modal, Button, Form, InputGroup, Tooltip, OverlayTrigger} from 'react-bootstrap';
 import {BsPencil} from 'react-icons/bs';
+import PropTypes from 'prop-types';
 import Cookies from 'js-cookie';
 
 import UserSettingsReducer from './UserSettingsReducer';
@@ -170,6 +171,11 @@ const UserSettings = (props) => {
             </Modal.Footer>
         </Modal>
     );
+};
+
+UserSettings.propTypes = {
+    show: PropTypes.bool,
+    handleModal: PropTypes.func,
 };
 
 export default UserSettings;

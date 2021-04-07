@@ -1,6 +1,7 @@
 import React from 'react';
-import {Route, Redirect, useParams} from 'react-router-dom';
+import {Route, Redirect} from 'react-router-dom';
 import Cookies from 'js-cookie';
+import PropTypes from 'prop-types';
 
 const PublicRoute = ({component: Component, restricted, ...rest}) => {
     return (
@@ -11,6 +12,11 @@ const PublicRoute = ({component: Component, restricted, ...rest}) => {
             }
         />
     );
+};
+
+PublicRoute.propTypes = {
+    component: PropTypes.func,
+    restricted: PropTypes.string,
 };
 
 export default PublicRoute;

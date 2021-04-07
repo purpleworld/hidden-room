@@ -1,6 +1,7 @@
 import React, {useReducer, useContext, useEffect} from 'react';
 import {Media, Button, Figure} from 'react-bootstrap';
 import {BsX, BsCheck} from 'react-icons/bs';
+import PropTypes from 'prop-types';
 import Cookies from 'js-cookie';
 import 'holderjs';
 
@@ -85,6 +86,17 @@ const Card = (props) => {
             </Media.Body>
         </Media>
     );
+};
+
+Card.propTypes = {
+    friend: PropTypes.shape({
+        id: PropTypes.number,
+        relationship: PropTypes.string,
+        user_id: PropTypes.number,
+        user2_id: PropTypes.number,
+    }),
+
+    getFriends: PropTypes.func,
 };
 
 export default Card;

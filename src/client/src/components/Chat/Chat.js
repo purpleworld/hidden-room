@@ -1,6 +1,7 @@
 import React, {useReducer, useEffect, useContext, useRef} from 'react';
 import {Col, Navbar, Nav, InputGroup, Button, FormControl} from 'react-bootstrap';
 import {useSwipeable} from 'react-swipeable';
+import PropTypes from 'prop-types';
 import Cookies from 'js-cookie';
 
 import Message from '../Message/Message';
@@ -142,6 +143,10 @@ const Chat = (props) => {
             </InputGroup>
         </Col>
     );
+};
+
+Chat.propTypes = {
+    roomID: PropTypes.string,
 };
 
 export default Chat;
