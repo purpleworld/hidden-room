@@ -1,5 +1,7 @@
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, get_list_or_404
+from django.core.exceptions import ObjectDoesNotExist
+
 from rest_framework import viewsets, generics, authentication, permissions, response, status
 from rest_framework.authtoken.views import ObtainAuthToken, APIView
 from rest_framework.authtoken.models import Token
@@ -44,6 +46,7 @@ class ProfileViewSet(viewsets.ModelViewSet):
             'status': self.object.status,
         })
 
+
 class FriendViewSet(viewsets.ModelViewSet):
     queryset = Friend.objects.all()
     serializer_class = FriendSerializer
@@ -61,11 +64,9 @@ class FriendViewSet(viewsets.ModelViewSet):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return
-        
 
     def perform_create(self, serializer):
         serializer.save()
-
     
     def retrieve(self, request):
         queryset = Friend.objects.filter(Q(user_id=self.request.user) | Q(user2_id=self.request.user))
@@ -78,12 +79,35 @@ class AccountCreate(generics.CreateAPIView):
     serializer_class = UserSerializer
     permission_classes = [permissions.AllowAny]
 
+
 class UpdateAccount(generics.UpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
+
+class CheckEmail(generics.RetrieveAPIView):
+    serializer_class = UserSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def retrieve(self, request, *args, **kwargs):
+        email = User.objects.filter(email=request.data['email']).exists()
+        if(email):
+            return response.Response('An account is already registered with that email.')
+        else:
+            return response.Response(True)
+
+class CheckUsername(generics.RetrieveAPIView):
+    serializer_class = UserSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def retrieve(self, request, *args, **kwargs):
+        username = User.objects.filter(username=request.data['username']).exists()
+        if(username):
+            return response.Response('That username is already taken.')
+        else:
+            return response.Response(True)
 
 class GetToken(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
