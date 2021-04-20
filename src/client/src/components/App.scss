@@ -11,6 +11,14 @@ body {
 
 /* Custom Theme */
 
+.error {
+    color: #c31313;
+}
+
+.input-error {
+    border-color: #c31313 !important;
+}
+
 .btn-hidden {
     color: $base-color;
     border-color: $base-color;

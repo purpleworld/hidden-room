@@ -92,7 +92,7 @@ class CheckEmail(generics.RetrieveAPIView):
     permission_classes = [permissions.AllowAny]
 
     def retrieve(self, request, *args, **kwargs):
-        email = User.objects.filter(email=request.data['email']).exists()
+        email = User.objects.filter(email=request.query_params['email']).exists()
         if(email):
             return response.Response('An account is already registered with that email.')
         else:
@@ -103,7 +103,7 @@ class CheckUsername(generics.RetrieveAPIView):
     permission_classes = [permissions.AllowAny]
 
     def retrieve(self, request, *args, **kwargs):
-        username = User.objects.filter(username=request.data['username']).exists()
+        username = User.objects.filter(username=request.query_params['username']).exists()
         if(username):
             return response.Response('That username is already taken.')
         else:

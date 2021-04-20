@@ -6,6 +6,13 @@ const RegisterReducer = (state, action) => {
                 [action.field]: action.payload,
             };
         }
+
+        case 'error': {
+            return {
+                ...state,
+                error: {...state.error, [action.errorType]: action.error},
+            };
+        }
     }
 };
 

@@ -1,6 +1,8 @@
 import React, {useReducer, useEffect} from 'react';
 import {BrowserRouter as Router, Switch, Route, Link, Redirect} from 'react-router-dom';
 import {Container, Form, Button, Row, Col} from 'react-bootstrap';
+import {useDebouncedCallback} from 'use-debounce';
+
 import RegisterReducer from './RegisterReducer';
 
 const Register = () => {
@@ -9,6 +11,7 @@ const Register = () => {
         username: '',
         password: '',
         confirm_password: '',
+        error: {},
     };
 
     const [state, dispatch] = useReducer(RegisterReducer, initState);
@@ -39,6 +42,25 @@ const Register = () => {
         document.title = 'Register / Hidden Room';
     }, []);
 
+    const checkEmail = useDebouncedCallback(async (dispatch) => {
+        await fetch(`${process.env.API_URL}/api/v1/account/check/email/?email=${state.email}`, {
+            method: 'GET',
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                dispatch({type: 'error', errorType: 'email', error: data});
+            });
+    }, 800);
+
+    const checkUsername = useDebouncedCallback(async (dispatch) => {
+        await fetch(`${process.env.API_URL}/api/v1/account/check/username/?username=${state.username}`, {
+            method: 'GET',
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                dispatch({type: 'error', errorType: 'username', error: data});
+            });
+    }, 800);
     return (
         <Container className="d-flex justify-content-center align-items-center h-100" fluid>
             <Row>
@@ -49,23 +71,33 @@ const Register = () => {
                         <Form.Group controlId="email">
                             <Form.Label>Email</Form.Label>
                             <Form.Control
-                                onChange={(e) =>
-                                    dispatch({type: 'change', field: 'email', payload: e.currentTarget.value})
-                                }
+                                onChange={(e) => {
+                                    dispatch({type: 'change', field: 'email', payload: e.currentTarget.value});
+                                    checkEmail(dispatch);
+                                }}
                                 type="email"
+                                className={state.error.email !== true && state.email != '' ? 'input-error' : ''}
                                 required
                             />
+                            <Form.Text className="error">
+                                {state.error.email === true ? '' : state.error.email}
+                            </Form.Text>
                         </Form.Group>
 
                         <Form.Group controlId="username">
                             <Form.Label>Username</Form.Label>
                             <Form.Control
-                                onChange={(e) =>
-                                    dispatch({type: 'change', field: 'username', payload: e.currentTarget.value})
-                                }
+                                onChange={(e) => {
+                                    dispatch({type: 'change', field: 'username', payload: e.currentTarget.value});
+                                    checkUsername(dispatch);
+                                }}
                                 type="username"
+                                className={state.error.username !== true && state.username != '' ? 'input-error' : ''}
                                 required
                             />
+                            <Form.Text className="error">
+                                {state.error.username === true ? '' : state.error.username}
+                            </Form.Text>
                         </Form.Group>
 
                         <Form.Group controlId="password">
