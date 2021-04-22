@@ -109,6 +109,10 @@ const Register = () => {
                                 type="password"
                                 required
                             />
+                            <Form.Text muted>
+                                Your password must be 8-20 characters long, contain letters and numbers, and must not
+                                contain spaces, or emoji.
+                            </Form.Text>
                         </Form.Group>
 
                         <Form.Group controlId="confirm_password">
