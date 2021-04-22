@@ -3,3 +3,4 @@ psycopg2
 python-dotenv
 django-cors-headers
 channels
+channels_redis

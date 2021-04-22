@@ -10,7 +10,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '78#3nj-0j5ghp%!9(@%7h+cyg6^ufor9x**!lklz)cza66$7hr'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -79,11 +79,23 @@ TEMPLATES = [
 ]
 
 ASGI_APPLICATION = 'HiddenRoom.asgi.application'
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"
+
+if(DEBUG):
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels.layers.InMemoryChannelLayer"
+        }
     }
-}
+elif(DEBUG == False):
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": 'channels_redis.core.RedisChannelLayer',
+            "CONFIG": {
+                "hosts": [(os.getenv('HOST'), os.getenv('PORT'))],
+            },
+        },
+    }
+    
 WSGI_APPLICATION = 'HiddenRoom.wsgi.application'
 
 
