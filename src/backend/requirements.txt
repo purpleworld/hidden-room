@@ -3,5 +3,6 @@ daphne
 psycopg2
 python-dotenv
 django-cors-headers
+djangorestframework
 channels
 channels_redis

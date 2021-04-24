@@ -91,12 +91,10 @@ elif(DEBUG == False):
         "default": {
             "BACKEND": 'channels_redis.core.RedisChannelLayer',
             "CONFIG": {
-                "hosts": [(os.getenv('HOST'), os.getenv('PORT'))],
+                "hosts": [(os.getenv('REDIS_HOST'), os.getenv('REDIS_PORT'))],
             },
         },
     }
-    
-WSGI_APPLICATION = 'HiddenRoom.wsgi.application'
 
 
 # Database
