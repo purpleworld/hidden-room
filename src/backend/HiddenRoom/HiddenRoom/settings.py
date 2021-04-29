@@ -10,15 +10,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG')
+DEBUG = os.getenv('PROD') == 'True'
 
-ALLOWED_HOSTS = []
 
 CORS_ORIGIN_ALLOW_ALL = True
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['hiddenroom.herokuapp.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -57,7 +56,7 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': ['rest_framework.renderers.JSONRenderer'],
     'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAdminUser'],
     'DEFAULT_AUTHENTICATION_CLASSES': ['rest_framework.authentication.TokenAuthentication'],
-    'PAGE_SIZE': 20
+    'PAGE_SIZE': 20,
 }
 
 ROOT_URLCONF = 'HiddenRoom.urls'
@@ -78,7 +77,8 @@ TEMPLATES = [
     },
 ]
 
-ASGI_APPLICATION = 'HiddenRoom.asgi.application'
+ASGI_APPLICATION = 'HiddenRoom.routing.application'
+WSGI_APPLICATION = 'HiddenRoom.wsgi.application'
 
 if(DEBUG):
     CHANNEL_LAYERS = {
@@ -91,7 +91,7 @@ elif(DEBUG == False):
         "default": {
             "BACKEND": 'channels_redis.core.RedisChannelLayer',
             "CONFIG": {
-                "hosts": [(os.getenv('REDIS_HOST'), os.getenv('REDIS_PORT'))],
+                "hosts": [os.getenv('REDIS_URL')],
             },
         },
     }

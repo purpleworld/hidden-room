@@ -1,3 +1,0 @@
-release: python HiddenRoom/manage.py migrate
-web: daphne HiddenRoom.HiddenRoom.asgi:application --port $PORT --bind 0.0.0.0
-worker: python HiddenRoom/manage.py runworker channel_layer
