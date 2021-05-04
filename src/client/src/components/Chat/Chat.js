@@ -88,7 +88,10 @@ const Chat = (props) => {
             document.querySelector('.messages').scrollTo(0, document.querySelector('.messages').scrollHeight);
         });
 
-        ws.current = new WebSocket(`ws://127.0.0.1:8000/chat/${props.roomID}/?token=${Cookies.get('auth_token')}`);
+        const protocolWS = window.location.protocol == 'https:' ? 'wss' : 'ws';
+        ws.current = new WebSocket(
+            `${protocolWS}://${process.env.SOCKET_URL}/chat/${props.roomID}/?token=${Cookies.get('auth_token')}`
+        );
 
         return () => {
             ws.current.close();
